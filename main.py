@@ -35,13 +35,18 @@ for data in jsonData['results']:
     jsonTags = jsonProperties['Tags']
     jsonMultiSelect = jsonTags['multi_select']
 
-    jsonPedido = jsonProperties['Pedido']
-    jsonPedidoTitle = jsonPedido['title']
+    jsonOrder = jsonProperties['Pedido']
+    jsonOrderTitle = jsonOrder['title']
     
-    for dataOrder in jsonPedidoTitle:
+    for dataOrder in jsonOrderTitle:
         dataOrderText = dataOrder['text']
         print(dataOrderText['content'])
     
+    jsonModel = jsonProperties['Modelo']
+    jsonModel_rich_text = jsonModel['rich_text']
+    for dataModel in jsonModel_rich_text:
+        print(dataModel['plain_text'])
+
     for dataName in jsonMultiSelect:
         print(dataName['name'])
         
