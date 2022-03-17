@@ -10,11 +10,18 @@ database = os.getenv('DATABASE')
 
 url = f"https://api.notion.com/v1/databases/{database}/query"
 
-payload = "<file contents here>"
+payload = json.dumps({
+    "filter": {
+        "property": "Creado",
+        "created_time": {
+            "after": "2022-03-15"
+        }
+    }
+})
 headers = {
     'Notion-Version': '2021-05-13',
     'Authorization': tokenNotion,
-    'Content-Type': 'text/plain'
+    'Content-Type': 'application/json'
 }
 
 response = requests.request("POST", url, headers=headers, data=payload)
@@ -32,6 +39,7 @@ for data in jsonData['results']:
     jsonProperties = data['properties']
     jsonMo = jsonProperties['MO']
     print(jsonMo['number'])
+    
     jsonTags = jsonProperties['Tags']
     jsonMultiSelect = jsonTags['multi_select']
 
