@@ -24,16 +24,16 @@ jsonData = json.loads(response.text)
 
 
 for data in jsonData['results']:
-    jsonFecha = data["created_time"]
-    fecha2 = jsonFecha.split("T")[0].split("-")
-    fechaFinal = "/".join(reversed(fecha2))
-    print(fechaFinal)
+    jsonDate = data["created_time"]
+    Date2 = jsonDate.split("T")[0].split("-")
+    DateFinal = "/".join(reversed(Date2))
+    print(DateFinal)
     
     jsonProperties = data['properties']
     jsonMo = jsonProperties['MO']
     print(jsonMo['number'])
-    jsonEtiquetas = jsonProperties['Tags']
-    jsonMultiSelect = jsonEtiquetas['multi_select']
+    jsonTags = jsonProperties['Tags']
+    jsonMultiSelect = jsonTags['multi_select']
 
     jsonPedido = jsonProperties['Pedido']
     jsonPedidoTitle = jsonPedido['title']
