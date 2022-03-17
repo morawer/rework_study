@@ -30,8 +30,17 @@ for data in jsonData['results']:
     print(fechaFinal)
     
     jsonProperties = data['properties']
-    jsonEtiquetas = jsonProperties['Etiquetas']
+    jsonMo = jsonProperties['MO']
+    print(jsonMo['number'])
+    jsonEtiquetas = jsonProperties['Tags']
     jsonMultiSelect = jsonEtiquetas['multi_select']
+
+    jsonPedido = jsonProperties['Pedido']
+    jsonPedidoTitle = jsonPedido['title']
+    
+    for dataOrder in jsonPedidoTitle:
+        dataOrderText = dataOrder['text']
+        print(dataOrderText['content'])
     
     for dataName in jsonMultiSelect:
         print(dataName['name'])
@@ -40,3 +49,4 @@ for data in jsonData['results']:
     jsonInspectorSelect = jsonInspector['select']
     jsonInspectorName = jsonInspectorSelect['name']
     print('Inspector: ' + jsonInspectorName)
+    print('************************************************')
