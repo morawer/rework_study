@@ -12,10 +12,21 @@ url = f"https://api.notion.com/v1/databases/{database}/query"
 
 payload = json.dumps({
     "filter": {
-        "property": "Creado",
-        "created_time": {
-            "after": "2022-03-15"
-        }
+        "and": [
+            {
+                "property": "Creado",
+                "created_time": {
+                    "after": "2021-03-15"
+                }
+            },
+                {
+                    "property": "Creado",
+                    "created_time": {
+                        "before": "2022-03-13"
+                    }
+                }
+            
+        ]    
     }
 })
 headers = {
