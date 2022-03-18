@@ -1,5 +1,5 @@
 import json
-import requests
+import inspections_list
 import os
 from dotenv import load_dotenv
 
@@ -8,38 +8,14 @@ load_dotenv()
 tokenNotion = os.getenv('TOKEN_NOTION')
 database = os.getenv('DATABASE')
 
-url = f"https://api.notion.com/v1/databases/{database}/query"
+date1 = input('Introduce la primera fecha (yyyy-mm-dd):')
+date2 = input('Introduce la segunda fecha (yyyy-mm-dd):')
 
-payload = json.dumps({
-    "filter": {
-        "and": [
-            {
-                "property": "Creado",
-                "created_time": {
-                    "after": "2021-03-15"
-                }
-            },
-                {
-                    "property": "Creado",
-                    "created_time": {
-                        "before": "2022-03-13"
-                    }
-                }
-            
-        ]    
-    }
-})
-headers = {
-    'Notion-Version': '2021-05-13',
-    'Authorization': tokenNotion,
-    'Content-Type': 'application/json'
-}
+#date1 = '2022-03-15'
+#date2 = '2022-03-18'
 
-response = requests.request("POST", url, headers=headers, data=payload)
-
-#print(response.text)
-jsonData = json.loads(response.text)
-
+jsonResponse = inspections_list.todoList(tokenNotion, database, date1, date2)
+jsonData = json.loads(jsonResponse)
 
 for data in jsonData['results']:
     jsonDate = data["created_time"]
