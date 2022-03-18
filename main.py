@@ -1,5 +1,6 @@
 import json
 import inspections_list
+import counter_lines
 import os
 from dotenv import load_dotenv
 
@@ -8,16 +9,17 @@ load_dotenv()
 tokenNotion = os.getenv('TOKEN_NOTION')
 database = os.getenv('DATABASE')
 
-date1 = input('Introduce la primera fecha (yyyy-mm-dd):')
-date2 = input('Introduce la segunda fecha (yyyy-mm-dd):')
+#date1 = input('Introduce la primera fecha (yyyy-mm-dd):')
+#date2 = input('Introduce la segunda fecha (yyyy-mm-dd):')
 
-#date1 = '2022-03-15'
-#date2 = '2022-03-18'
+date1 = '2022-02-15'
+date2 = '2022-03-17'
 
 jsonResponse = inspections_list.todoList(tokenNotion, database, date1, date2)
 jsonData = json.loads(jsonResponse)
 
 for data in jsonData['results']:
+    jsonId = data['id']
     jsonDate = data["created_time"]
     Date2 = jsonDate.split("T")[0].split("-")
     DateFinal = "/".join(reversed(Date2))
@@ -49,4 +51,5 @@ for data in jsonData['results']:
     jsonInspectorSelect = jsonInspector['select']
     jsonInspectorName = jsonInspectorSelect['name']
     print('Inspector: ' + jsonInspectorName)
+    print('Numero de lineas: ' + counter_lines.counterLines(tokenNotion, jsonId))
     print('************************************************')
