@@ -1,6 +1,7 @@
 import json
 import inspections_list
 import counter_lines
+import excel_writer
 import os
 from dotenv import load_dotenv
 
@@ -21,6 +22,8 @@ jsonResponse = inspections_list.todoList(tokenNotion, database, date1, date2)
 jsonData = json.loads(jsonResponse)
 
 for data in jsonData['results']:
+    dataArray.clear()
+
     jsonId = data['id']
     jsonDate = data["created_time"]
     Date2 = jsonDate.split("T")[0].split("-")
@@ -68,7 +71,6 @@ for data in jsonData['results']:
         dataArray.append(nameTag)
         
     checkedAHU = checkedAHU + 1
-    print(dataArray)
-    dataArray.clear()
+    excel_writer.excelWriter(dataArray)
     print('************************************************')
 print(f'Unidades revisadas: {checkedAHU}')
