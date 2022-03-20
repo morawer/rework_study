@@ -16,11 +16,9 @@ def excelWriter(dataArray):
     sheet.title = 'dataAHU'
     lastRow = sheet.max_row
     lenghtData = len(dataArray)
-    print(lastRow)
+
     for data in range (0, lenghtData):
         sheet.cell(row=lastRow + 1, column=data + 1, value=dataArray[data])
         
-    print(lastRow)
     wb.save('dataAHU.xlsx')
     wb.close()
-    sheet.delete_rows(idx=1)
