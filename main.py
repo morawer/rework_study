@@ -13,7 +13,7 @@ database = os.getenv('DATABASE')
 #date1 = input('Introduce la primera fecha (yyyy-mm-dd):')
 #date2 = input('Introduce la segunda fecha (yyyy-mm-dd):')
 
-date1 = '2022-03-13'
+date1 = '2022-02-13'
 date2 = '2022-03-20'
 checkedAHU = 0
 dataArray= []
