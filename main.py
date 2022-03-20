@@ -10,15 +10,20 @@ load_dotenv()
 tokenNotion = os.getenv('TOKEN_NOTION')
 database = os.getenv('DATABASE')
 
-#date1 = input('Introduce la primera fecha (yyyy-mm-dd):')
-#date2 = input('Introduce la segunda fecha (yyyy-mm-dd):')
 
-date1 = '2022-02-13'
-date2 = '2022-03-20'
+def formatDate(date):
+    dateSplit = date.split('/')
+    return '-'.join(reversed(dateSplit))
+
+date1 = input('Introduce la primera fecha (yyyy-mm-dd):')
+date1Formatted = formatDate(date1)
+date2 = input('Introduce la segunda fecha (yyyy-mm-dd):')
+date2Formatted = formatDate(date2)
+
 checkedAHU = 0
 dataArray= []
 
-jsonResponse = inspections_list.todoList(tokenNotion, database, date1, date2)
+jsonResponse = inspections_list.todoList(tokenNotion, database, date1Formatted, date2Formatted)
 jsonData = json.loads(jsonResponse)
 
 for data in jsonData['results']:
