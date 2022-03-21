@@ -10,14 +10,14 @@ load_dotenv()
 tokenNotion = os.getenv('TOKEN_NOTION')
 database = os.getenv('DATABASE')
 
-
 def formatDate(date):
     dateSplit = date.split('/')
     return '-'.join(reversed(dateSplit))
 
-date1 = input('Introduce la primera fecha (yyyy-mm-dd):')
+print('PERIODO DE FECHAS:')
+date1 = input('Introduce la primera fecha (dd-mm-aaaa):')
 date1Formatted = formatDate(date1)
-date2 = input('Introduce la segunda fecha (yyyy-mm-dd):')
+date2 = input('Introduce la segunda fecha (dd-mm-aaaa):')
 date2Formatted = formatDate(date2)
 
 checkedAHU = 0
