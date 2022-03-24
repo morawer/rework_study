@@ -1,8 +1,7 @@
-import json
-import inspections_list
-import counter_lines
-import excel_writer
-import os
+import inspections_list, counter_lines, excel_writer
+import json, os
+from datetime import datetime
+from datetime import timedelta
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -14,16 +13,20 @@ def formatDate(date):
     dateSplit = date.split('/')
     return '-'.join(reversed(dateSplit))
 
-print('PERIODO DE FECHAS:')
-date1 = input('Introduce la primera fecha (dd-mm-aaaa):')
-date1Formatted = formatDate(date1)
-date2 = input('Introduce la segunda fecha (dd-mm-aaaa):')
-date2Formatted = formatDate(date2)
+
+dateNow = str(datetime.now().date())
+dateLastWeek = (datetime.now() - timedelta(days=7))
+dateLastWeek2 = str(dateLastWeek.date())
+
+print(dateNow)
+print(dateLastWeek2)
+
 
 checkedAHU = 0
 dataArray= []
 
-jsonResponse = inspections_list.todoList(tokenNotion, database, date1Formatted, date2Formatted)
+jsonResponse = inspections_list.todoList(
+    tokenNotion, database, dateLastWeek2, dateNow)
 jsonData = json.loads(jsonResponse)
 
 for data in jsonData['results']:
@@ -31,10 +34,10 @@ for data in jsonData['results']:
 
     jsonId = data['id']
     jsonDate = data["created_time"]
-    Date2 = jsonDate.split("T")[0].split("-")
-    DateFinal = "/".join(reversed(Date2))
-    dataArray.append(DateFinal)
-    print(DateFinal)
+    date2 = jsonDate.split("T")[0].split("-")
+    dateFinal = "/".join(reversed(date2))
+    dataArray.append(dateFinal)
+    print(dateFinal)
     
     jsonProperties = data['properties']
     jsonOrder = jsonProperties['Pedido']
