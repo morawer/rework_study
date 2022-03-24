@@ -6,27 +6,37 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-tokenNotion = os.getenv('TOKEN_NOTION')
-database = os.getenv('DATABASE')
 
 def formatDate(date):
     dateSplit = date.split('/')
     return '-'.join(reversed(dateSplit))
 
+tokenNotion = os.getenv('TOKEN_NOTION')
+database = os.getenv('DATABASE')
 
-dateNow = str(datetime.now().date())
-dateLastWeek = (datetime.now() - timedelta(days=7))
-dateLastWeek2 = str(dateLastWeek.date())
+date1Formatted = ''
+date2Formatted = '' 
 
-print(dateNow)
-print(dateLastWeek2)
-
+opt = '3'
+while opt > str(2):
+    print('Elige tipo de selección de fecha:')
+    opt = input('[1]: Última semana.\n[2]: Selección de fecha manual.')
+    if opt == str(1):
+        date1LastWeek = (datetime.now() - timedelta(days=8))
+        date1Formatted = str(date1LastWeek.date())
+        date2Formatted = str(datetime.now().date())
+    elif opt == str(2):
+        print('PERIODO DE FECHAS:')
+        date1 = input('Introduce la primera fecha (dd-mm-aaaa):')
+        date1Formatted = formatDate(date1)
+        date2 = input('Introduce la segunda fecha (dd-mm-aaaa):')
+        date2Formatted = formatDate(date2)
 
 checkedAHU = 0
 dataArray= []
 
 jsonResponse = inspections_list.todoList(
-    tokenNotion, database, dateLastWeek2, dateNow)
+    tokenNotion, database, date1Formatted, date2Formatted)
 jsonData = json.loads(jsonResponse)
 
 for data in jsonData['results']:
