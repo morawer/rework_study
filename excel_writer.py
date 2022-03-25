@@ -10,7 +10,7 @@ def excelWriter(dataArray):
     pathFilename = 'U:\SISTEMA GESTIÓN CALIDAD\02 PROCEDIMIENTOS\PR-003 - CONTROL DE PRODUCTO NO CONFORME\01 PRODUCCIÓN\05 CONTROL RETRABAJOS (SÁBANAS)\Sabanas AHU.xlsx'
     
     if os.path.exists(fileName):
-        wb = load_workbook(fileName)
+        wb = load_workbook(pathFilename)
     else:
         wb = Workbook()
     
@@ -22,5 +22,5 @@ def excelWriter(dataArray):
     for data in range (0, lenghtData):
         sheet.cell(row=lastRow + 1, column=data + 1, value=dataArray[data])
         
-    wb.save(fileName)
+    wb.save(pathFilename)
     wb.close()
