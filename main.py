@@ -1,5 +1,9 @@
-import inspections_list, counter_lines, excel_writer
-import json, os
+import inspections_list
+import counter_lines
+import excel_writer
+from sabana_class import Sabana
+import json
+import os
 from datetime import datetime
 from datetime import timedelta
 from dotenv import load_dotenv
@@ -15,7 +19,7 @@ tokenNotion = os.getenv('TOKEN_NOTION')
 database = os.getenv('DATABASE')
 
 date1Formatted = ''
-date2Formatted = '' 
+date2Formatted = ''
 
 opt = '3'
 while opt > str(2):
@@ -33,7 +37,7 @@ while opt > str(2):
         date2Formatted = formatDate(date2)
 
 checkedAHU = 0
-dataArray= []
+dataArray = []
 
 jsonResponse = inspections_list.todoList(
     tokenNotion, database, date1Formatted, date2Formatted)
@@ -46,37 +50,33 @@ for data in jsonData['results']:
     jsonDate = data["created_time"]
     date2 = jsonDate.split("T")[0].split("-")
     dateFinal = "/".join(reversed(date2))
-    dataArray.append(dateFinal)
     print(dateFinal)
-    
+
     jsonProperties = data['properties']
     jsonOrder = jsonProperties['Pedido']
     jsonOrderTitle = jsonOrder['title']
-    for dataOrder in jsonOrderTitle:
-        dataOrderText = dataOrder['text']
-        dataArray.append(dataOrderText['content'])
-        print(dataOrderText['content'])
-    
+    for data in jsonOrderTitle:
+        dataOrderText = data['text']
+        dataOrder = dataOrderText['content']
+        print(dataOrder)
+
     jsonInspector = jsonProperties['Inspector']
     jsonInspectorSelect = jsonInspector['select']
     jsonInspectorName = jsonInspectorSelect['name']
-    dataArray.append(jsonInspectorName)
     print('Inspector: ' + jsonInspectorName)
- 
-    jsonProperties = data['properties']
+
     jsonMo = jsonProperties['MO']
-    dataArray.append(jsonMo['number'])
-    print(jsonMo['number'])
-    
+    dataMo = jsonMo['number']
+    print(dataMo)
+
     jsonModel = jsonProperties['Modelo']
     jsonModel_rich_text = jsonModel['rich_text']
     for dataModel in jsonModel_rich_text:
-        dataArray.append(dataModel['plain_text'])
-        print(dataModel['plain_text'])
-        
+        dataModelAHU = dataModel['plain_text']
+        print(dataModelAHU)
+
     countLines = counter_lines.counterLines(tokenNotion, jsonId)
     print('Numero de lineas: ' + countLines)
-    dataArray.append(countLines)
 
     jsonTags = jsonProperties['Tags']
     jsonMultiSelect = jsonTags['multi_select']
@@ -87,8 +87,10 @@ for data in jsonData['results']:
         counterTags = counterTags + 1
         print(f'[{counterTags}] {nameTag}')
         dataArray.append(nameTag)
-        
+
+    sabana = Sabana(dataOrder, dateFinal, dataMo, dataModelAHU, jsonInspectorName, countLines, dataArray)
     checkedAHU = checkedAHU + 1
-    excel_writer.excelWriter(dataArray)
+    #print(sabana.tags)
+    excel_writer.excelWriter(sabana)
     print('************************************************')
 print(f'Unidades revisadas: {checkedAHU}')
