@@ -28,18 +28,22 @@ date2Formatted = ''
 opt = '3'
 while opt > str(2):
     print('Elige tipo de selección de fecha:')
-    opt = input('[1]: Última semana.\n[2]: Selección de fecha manual.')
+    print('[1]: Última semana.\n[2]: Selección de fecha manual.')
+    opt = input('>>>')
     if opt == str(1):
         date1LastWeek = (datetime.now() - timedelta(days=8))
         date1Formatted = str(date1LastWeek.date())
         date2Formatted = str(datetime.now().date())
     elif opt == str(2):
         print('PERIODO DE FECHAS:')
-        date1 = input('Introduce la primera fecha (dd-mm-aaaa):')
+        print('Introduce la primera fecha')
+        date1 = input('>>> dd/mm/aaaa >>> ')
         date1Formatted = formatDate(date1)
-        date2 = input('Introduce la segunda fecha (dd-mm-aaaa):')
+        print('Introduce la segunda fecha')
+        date2 = input('>>> dd/mm/aaaa >>> ')
         date2Formatted = formatDate(date2)
 
+totalLines = 0
 checkedAHU = 0
 dataArray = []
 sabanaArray = []
@@ -82,6 +86,7 @@ for data in jsonData['results']:
 
     countLines = counter_lines.counterLines(tokenNotion, jsonId)
     print('Numero de lineas: ' + countLines)
+    totalLines = totalLines + int(countLines)
 
     jsonTags = jsonProperties['Tags']
     jsonMultiSelect = jsonTags['multi_select']
@@ -104,3 +109,6 @@ sabanaArray.sort(key=getKey, reverse= True)
 
 for sabana in sabanaArray:
     print(Sabana.__repr__(sabana))
+
+avgLines = totalLines/checkedAHU    
+print(f'La media de lineas por sábana es de {avgLines:.0f} lineas')
