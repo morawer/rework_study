@@ -19,7 +19,7 @@ def excelWriter(dataArray):
     lastRow = sheet.max_row
     lenghtData = len(dataArray.tags)
 
-    sheet.cell(row=lastRow+1, column =1, value= dataArray.date)
+    sheet.cell(row=lastRow+1, column=1, value=dataArray.date)
     sheet.cell(row=lastRow+1, column=2, value=dataArray.order)
     sheet.cell(row=lastRow+1, column=3, value=dataArray.mo)
     sheet.cell(row=lastRow+1, column=4, value=dataArray.model)
