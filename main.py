@@ -1,15 +1,19 @@
-import inspections_list
-import counter_lines
-import excel_writer
-from sabana_class import Sabana
 import json
 import os
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime, timedelta
+
 from dotenv import load_dotenv
+
+import counter_lines
+import excel_writer
+import inspections_list
+from sabana_class import Sabana
 
 load_dotenv()
 
+
+def getKey(obj):
+    return obj.lines
 
 def formatDate(date):
     dateSplit = date.split('/')
@@ -38,6 +42,7 @@ while opt > str(2):
 
 checkedAHU = 0
 dataArray = []
+sabanaArray = []
 
 jsonResponse = inspections_list.todoList(
     tokenNotion, database, date1Formatted, date2Formatted)
@@ -90,7 +95,12 @@ for data in jsonData['results']:
 
     sabana = Sabana(dataOrder, dateFinal, dataMo, dataModelAHU, jsonInspectorName, countLines, dataArray)
     checkedAHU = checkedAHU + 1
-    #print(sabana.tags)
     excel_writer.excelWriter(sabana)
+    sabanaArray.append(sabana)
     print('************************************************')
 print(f'Unidades revisadas: {checkedAHU}')
+
+sabanaArray.sort(key=getKey, reverse= True)
+
+for sabana in sabanaArray:
+    print(Sabana.__repr__(sabana))

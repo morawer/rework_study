@@ -1,5 +1,5 @@
 class Sabana:
-    def __init__(sabana, date, order, mo, model, inspector, lines, tags):
+    def __init__(sabana, order, date, mo, model, inspector, lines, tags):
         sabana.date = date
         sabana.order = order
         sabana.mo = mo
@@ -7,3 +7,6 @@ class Sabana:
         sabana.inspector = inspector
         sabana.lines = lines
         sabana.tags = tags
+    
+    def __repr__(self):
+        return (f'>>{self.order} MODELO: {self.model} LINEAS: {self.lines}')    
