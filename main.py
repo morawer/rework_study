@@ -60,6 +60,8 @@ for data in jsonData['results']:
     date2 = jsonDate.split("T")[0].split("-")
     dateFinal = "/".join(reversed(date2))
     print(dateFinal)
+    
+    dataURL = data['url']
 
     jsonProperties = data['properties']
     jsonOrder = jsonProperties['Pedido']
@@ -98,7 +100,7 @@ for data in jsonData['results']:
         print(f'[{counterTags}] {nameTag}')
         dataArray.append(nameTag)
 
-    sabana = Sabana(dataOrder, dateFinal, dataMo, dataModelAHU, jsonInspectorName, countLines, dataArray)
+    sabana = Sabana(dataOrder, dateFinal, dataMo, dataModelAHU, jsonInspectorName, countLines, dataArray, dataURL)
     checkedAHU = checkedAHU + 1
     excel_writer.excelWriter(sabana)
     sabanaArray.append(sabana)
