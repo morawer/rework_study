@@ -10,18 +10,25 @@ def excelWriter(dataArray):
     fileName = 'dataAHU.xlsx'
     pathFilename = 'U:/SISTEMA GESTIÓN CALIDAD/02 PROCEDIMIENTOS/PR-003 - CONTROL DE PRODUCTO NO CONFORME/01 PRODUCCIÓN/05 CONTROL RETRABAJOS (SÁBANAS)/Sabanas AHU.xlsx'
     
-    if os.path.exists(pathFilename):
-        wb = load_workbook(pathFilename)
+    if os.path.exists(fileName):
+        wb = load_workbook(fileName)
     else:
         wb = Workbook()
     
     sheet = wb.active
     sheet.title = 'dataAHU'
     lastRow = sheet.max_row
-    lenghtData = len(dataArray)
+    lenghtData = len(dataArray.tags)
 
-    for data in range (0, lenghtData):
-        sheet.cell(row=lastRow + 1, column=data + 1, value=dataArray[data])
+    sheet.cell(row=lastRow+1, column=1, value=dataArray.date)
+    sheet.cell(row=lastRow+1, column=2, value=dataArray.order)
+    sheet.cell(row=lastRow+1, column=3, value=dataArray.mo)
+    sheet.cell(row=lastRow+1, column=4, value=dataArray.model)
+    sheet.cell(row=lastRow+1, column=5, value=dataArray.inspector)
+    sheet.cell(row=lastRow+1, column=6, value=dataArray.lines)
+    
+    for data in range(0, lenghtData):
+        sheet.cell(row=lastRow+1, column=7+data, value=dataArray.tags[data])
         
-    wb.save(pathFilename)
+    wb.save(fileName)
     wb.close()
