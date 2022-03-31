@@ -113,6 +113,6 @@ sabanaArray.sort(key=getKey, reverse= True)
 for sabana in sabanaArray:
     print(Sabana.__repr__(sabana))
     
-sender_email.sendEmail(mail_subject= date2Formatted, mail_body= 'TEST!!')
+sender_email.sendEmail(mail_subject= date2Formatted, mail_body= sabanaArray)
 avgLines = totalLines/checkedAHU    
 print(f'La media de lineas por sábana es de {avgLines:.0f} lineas')
