@@ -20,7 +20,6 @@ def formatDate(date):
     dateSplit = date.split('/')
     return '-'.join(reversed(dateSplit))
 
-
 tokenNotion = os.getenv('TOKEN_NOTION')
 database = os.getenv('DATABASE')
 
@@ -94,7 +93,7 @@ for data in jsonData['results']:
 
     jsonTags = jsonProperties['Tags']
     jsonMultiSelect = jsonTags['multi_select']
-
+    
     counterTags = 0
     for dataName in jsonMultiSelect:
         nameTag = dataName['name']
@@ -113,7 +112,7 @@ sabanaArray.sort(key=getKey, reverse= True)
 
 for sabana in sabanaArray:
     print(Sabana.__repr__(sabana))
-
+    
 sender_email.sendEmail(mail_subject= date2Formatted, mail_body= 'TEST!!')
 avgLines = totalLines/checkedAHU    
-print(f'La media de lineas por sábana es de {avgLines:.1f} lineas')
+print(f'La media de lineas por sábana es de {avgLines:.0f} lineas')
