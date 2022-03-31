@@ -10,4 +10,4 @@ class Sabana:
         sabana.url = url
     
     def __repr__(self):
-        return (f'>>{self.order} MODELO: {self.model} LINEAS: {self.lines} URL: {self.url}')    
+        return (f'>>{self.date} >> {self.order} MODELO: {self.model} URL: {self.url}')    

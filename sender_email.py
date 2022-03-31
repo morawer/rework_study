@@ -5,18 +5,7 @@ from email.mime.text import MIMEText
 from dotenv import load_dotenv
 load_dotenv()
 
-
-
 def sabanaList(sabanaArray):
-    html_sabana = ''' '''
-    for sabana in sabanaArray:
-        html_sabana= html_sabana + '<li>' + sabana.order + ' >>> ' + sabana.model + '<li>'
-    return str(html_sabana)
-
-
-
-def sendEmail(mail_subject, mail_body):
-
     html_body = '''
         <!DOCTYPE html>
         <html lang="es">
@@ -26,13 +15,22 @@ def sendEmail(mail_subject, mail_body):
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="estilo.css">
         </head>
-
         <body>
+        <ol>
         '''
+    html_sabana = ''' '''
+    
     html_body_end = '''
+        </ol>
         </body>
         </html>
         '''
+    for sabana in (sabanaArray):
+        html_sabana= html_sabana + '<li><a href=' + sabana.url + ' target= "_blank">' + sabana.order + '</a>' + ' >>> ' + sabana.model + ' LINEAS: ' + str(sabana.lines) + '</li>'
+    htmlEmail = html_body + html_sabana + html_body_end
+    return htmlEmail
+
+def sendEmail(mail_subject, mail_body):
 
     username = os.getenv('USER_GMAIL')
     password = os.getenv('PWD_GMAIL')
@@ -43,7 +41,7 @@ def sendEmail(mail_subject, mail_body):
     mimemsg['From'] = mail_from
     mimemsg['To'] = mail_to
     mimemsg['Subject'] = mail_subject
-    mimemsg.attach(MIMEText(html_body + sabanaList(mail_body) + html_body_end, 'html'))
+    mimemsg.attach(MIMEText(sabanaList(mail_body), 'html'))
     try:
         connection = smtplib.SMTP(host='smtp.gmail.com', port=587)
         connection.starttls()

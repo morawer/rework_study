@@ -12,7 +12,6 @@ from sabana_class import Sabana
 
 load_dotenv()
 
-
 def getKey(obj):
     return obj.lines
 
@@ -101,18 +100,18 @@ for data in jsonData['results']:
         print(f'[{counterTags}] {nameTag}')
         dataArray.append(nameTag)
 
-    sabana = Sabana(dataOrder, dateFinal, dataMo, dataModelAHU, jsonInspectorName, countLines, dataArray, dataURL)
+    sabana = Sabana(dataOrder, dateFinal, dataMo, dataModelAHU, jsonInspectorName, int(countLines), dataArray, dataURL)
     checkedAHU = checkedAHU + 1
     excel_writer.excelWriter(sabana)
     sabanaArray.append(sabana)
     print('************************************************')
 print(f'Unidades revisadas: {checkedAHU}')
 
-sabanaArray.sort(key=getKey, reverse= True)
+sabanaArray.sort(key=getKey, reverse=True)
 
 for sabana in sabanaArray:
     print(Sabana.__repr__(sabana))
     
 sender_email.sendEmail(mail_subject= date2Formatted, mail_body= sabanaArray)
 avgLines = totalLines/checkedAHU    
-print(f'La media de lineas por sábana es de {avgLines:.0f} lineas')
+print(f'La media de lineas por sábana es de {avgLines:.1f} lineas')
