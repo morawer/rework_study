@@ -15,12 +15,42 @@ def sabanaList(sabanaArray, avgLines):
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="estilo.css">
         <style>
+        a href {
+            color:white
+        }
         header {
             text-align: center;
         }
         section {
             padding: 30px;
             text-align: left;
+            background: #1a4c7f;
+            color: white;
+            font-family: 'Lato', sans-serif;
+        }
+        a:link {
+          color: white;
+          background-color: transparent;
+          text-decoration: none;
+          font-weight: bold;
+
+        }
+        a:visited {
+          color: black;
+          background-color: transparent;
+          text-decoration: none;
+        }
+        a:hover {
+          color: red;
+          background-color: transparent;
+          text-decoration: underline;
+          font-weight: bold;
+
+        }
+        a:active {
+          color: yellow;
+          background-color: transparent;
+          text-decoration: underline;
         }
         </style>
         </head>
