@@ -14,8 +14,21 @@ def sabanaList(sabanaArray, avgLines):
         <title>HTML</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="estilo.css">
+        <style>
+        header {
+            text-align: center;
+        }
+        section {
+            padding: 30px;
+            text-align: left;
+        }
+        </style>
         </head>
         <body>
+            <header>
+            <img src="https://www.systemair.com/fileadmin/template_screen/img/systemair-b2b/logo.svg" alt="www.systemair.es" width="370" height="170">
+            </header>
+        <section>
         <h1>Listado de equipos revisados:</h1>
         <ol>
         '''
@@ -24,6 +37,7 @@ def sabanaList(sabanaArray, avgLines):
     html_body_end = f'''
         </ol>
         <h4>La media de lineas por equipo es de {avgLines:.1f} lineas.
+        </section>
         </body>
         </html>
         '''
