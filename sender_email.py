@@ -33,19 +33,16 @@ def sabanaList(sabanaArray, avgLines):
           background-color: transparent;
           text-decoration: none;
           font-weight: bold;
-
         }
         a:visited {
-          color: black;
+          color: white;
           background-color: transparent;
           text-decoration: none;
         }
         a:hover {
-          color: red;
+          color: white;
           background-color: transparent;
           text-decoration: underline;
-          font-weight: bold;
-
         }
         a:active {
           color: yellow;
