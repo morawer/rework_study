@@ -28,6 +28,21 @@ def sabanaList(sabanaArray, avgLines):
             color: white;
             font-family: 'Lato', sans-serif;
         }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            padding: 10px;
+        }
+          
+        th, td {
+            text-align: center;
+            padding: 8px;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #33689D;
+        }
+
         a:link {
           color: white;
           background-color: transparent;
@@ -38,6 +53,8 @@ def sabanaList(sabanaArray, avgLines):
           color: white;
           background-color: transparent;
           text-decoration: none;
+          text-decoration: underline;
+
         }
         a:hover {
           color: white;
@@ -57,19 +74,28 @@ def sabanaList(sabanaArray, avgLines):
             </header>
         <section>
         <h1>Listado de equipos revisados:</h1>
-        <ol>
+        <table>
+            <tr>
+                <th>Pedido</th>
+                <th>MO</th>
+                <th>Modelo</th>
+                <th>Inspector</th>
+                <th>Líneas de sábana</th>
+            </tr>
         '''
     html_sabana = ''' '''
     
     html_body_end = f'''
-        </ol>
+        </table>
         <h4>La media de lineas por equipo es de {avgLines:.1f} lineas.
         </section>
         </body>
         </html>
         '''
     for sabana in (sabanaArray):
-        html_sabana= html_sabana + '<li><a href=' + sabana.url + ' target= "_blank">' + sabana.order + '</a>' + ' >>> ' + sabana.model + ' LINEAS: ' + str(sabana.lines) + '</li>'
+        html_sabana = html_sabana + '<tr><td><a href=' + sabana.url + ' target= "_blank">' + \
+            sabana.order + '</td><td>' + str(sabana.mo) + \
+                '</td><td>' + sabana.model + '</td><td>' + sabana.inspector + '</td><td>' + str(sabana.lines) + '</td>'
     htmlEmail = html_body + html_sabana + html_body_end
     return htmlEmail
 
