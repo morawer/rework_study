@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def sabanaList(sabanaArray, avgLines):
+    sabanaLenght = len(sabanaArray)
     html_body = '''
         <!DOCTYPE html>
         <html lang="es">
@@ -73,7 +74,11 @@ def sabanaList(sabanaArray, avgLines):
             <img src="https://www.systemair.com/fileadmin/template_screen/img/systemair-b2b/logo.svg" alt="www.systemair.es" width="370" height="170">
             </header>
         <section>
-        <h1>Listado de equipos revisados:</h1>
+        '''
+        
+    htmlBodyTitle = f'<h1>Listado: {sabanaLenght} equipos revisados.</h1>'
+        
+    htmlBodyTable = f'''
         <table>
             <tr>
                 <th>Pedido</th>
@@ -87,7 +92,7 @@ def sabanaList(sabanaArray, avgLines):
     
     html_body_end = f'''
         </table>
-        <h4>La media de lineas por equipo es de {avgLines:.1f} lineas.
+        <h3>Los equipos tienen una media de {avgLines:.1f} líneas.</h3>
         </section>
         </body>
         </html>
@@ -96,7 +101,7 @@ def sabanaList(sabanaArray, avgLines):
         html_sabana = html_sabana + '<tr><td><a href=' + sabana.url + ' target= "_blank">' + \
             sabana.order + '</td><td>' + str(sabana.mo) + \
                 '</td><td>' + sabana.model + '</td><td>' + sabana.inspector + '</td><td>' + str(sabana.lines) + '</td>'
-    htmlEmail = html_body + html_sabana + html_body_end
+    htmlEmail = html_body + htmlBodyTitle + htmlBodyTable + html_sabana + html_body_end
     return htmlEmail
 
 def sendEmail(mail_subject, mail_body, avgLines):

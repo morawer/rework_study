@@ -24,14 +24,17 @@ database = os.getenv('DATABASE')
 
 date1Formatted = ''
 date2Formatted = ''
+weekNum = ''
 
 opt = '3'
 while opt > str(2):
     print('Elige tipo de selección de fecha:')
     print('[1]: Última semana.\n[2]: Selección de fecha manual.')
-    opt = input('>>>')
+    opt = input('>>> ')
     if opt == str(1):
-        date1LastWeek = (datetime.now() - timedelta(days=2))
+        date1LastWeek = (datetime.now() - timedelta(days=8))
+        weekNum = date1LastWeek.strftime('%U')
+        subjectEmail = f'SEMANA {weekNum}: Informe de equipos revisados'
         date1Formatted = str(date1LastWeek.date())
         date2Formatted = str(datetime.now().date())
     elif opt == str(2):
@@ -101,17 +104,17 @@ for data in jsonData['results']:
         dataArray.append(nameTag)
 
     sabana = Sabana(dataOrder, dateFinal, dataMo, dataModelAHU, jsonInspectorName, int(countLines), dataArray, dataURL)
-    checkedAHU = checkedAHU + 1
     excel_writer.excelWriter(sabana)
     sabanaArray.append(sabana)
     print('************************************************')
-print(f'Unidades revisadas: {checkedAHU}')
+    
+sabanaLenght = len(sabanaArray)
+print(f'Unidades revisadas: {sabanaLenght}')
 
 sabanaArray.sort(key=getKey, reverse=True)
 
 for sabana in sabanaArray:
     print(Sabana.__repr__(sabana))
     
-avgLines = totalLines/checkedAHU    
-sender_email.sendEmail(mail_subject= date2Formatted, mail_body= sabanaArray, avgLines=avgLines)
-print(f'La media de lineas por sábana es de {avgLines:.1f} lineas')
+avgLines = totalLines/sabanaLenght    
+sender_email.sendEmail(mail_subject= subjectEmail, mail_body= sabanaArray, avgLines=avgLines)
