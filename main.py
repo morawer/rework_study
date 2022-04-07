@@ -32,7 +32,7 @@ while opt > str(2):
     print('[1]: Última semana.\n[2]: Selección de fecha manual.')
     opt = input('>>> ')
     if opt == str(1):
-        date1LastWeek = (datetime.now() - timedelta(days=8))
+        date1LastWeek = (datetime.now() - timedelta(days=4))
         weekNum = date1LastWeek.strftime('%U')
         subjectEmail = f'SEMANA {weekNum}: Informe de equipos revisados'
         date1Formatted = str(date1LastWeek.date())
