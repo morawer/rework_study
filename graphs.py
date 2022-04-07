@@ -1,7 +1,5 @@
 import matplotlib.pyplot as plt
 
-
-
 ## Declaramos valores para el eje x
 eje_x = ['Python', 'R', 'Node.js', 'PHP']
 
