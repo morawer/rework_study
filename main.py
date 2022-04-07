@@ -9,6 +9,7 @@ import excel_writer
 import inspections_list
 import sender_email
 from sabana_class import Sabana
+import graphs
 
 load_dotenv()
 
@@ -32,7 +33,7 @@ while opt > str(2):
     print('[1]: Última semana.\n[2]: Selección de fecha manual.')
     opt = input('>>> ')
     if opt == str(1):
-        date1LastWeek = (datetime.now() - timedelta(days=4))
+        date1LastWeek = (datetime.now() - timedelta(days=8))
         weekNum = date1LastWeek.strftime('%U')
         subjectEmail = f'SEMANA {weekNum}: Informe de equipos revisados'
         date1Formatted = str(date1LastWeek.date())
@@ -113,8 +114,5 @@ print(f'Unidades revisadas: {sabanaLenght}')
 
 sabanaArray.sort(key=getKey, reverse=True)
 
-for sabana in sabanaArray:
-    print(Sabana.__repr__(sabana))
-    
 avgLines = totalLines/sabanaLenght    
 sender_email.sendEmail(mail_subject= subjectEmail, mail_body= sabanaArray, avgLines=avgLines)
