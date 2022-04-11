@@ -23,14 +23,14 @@ def sabanaList(sabanaArray, avgLines):
             <img src="https://mussun.com/wp-content/uploads/2019/08/Systemair_logo-768x237.jpg" alt="www.systemair.es">
             </div>
             </header>
-            <div style= "background-color: #1a4c7f; text-align: left; color: white; font-family: 'Lato', sans-serif;">
+            <div style= "background-color: #1a4c7f; text-align: left; color: white; font-family: 'Lato', sans-serif; padding: 10px">
         '''
 
     htmlBodyTitle = f'''
                 <h1>Se han revisado {sabanaLenght} UTA's</h1>'''
 
     htmlBodyTable = f'''
-                <table style= "width: 100%; background-color: #1a4c7f; font-size: 14px;">
+                <table style= "width: 100%; background-color: #1a4c7f; font-size: 14px; border-collapse: collapse;">
                     <tr>
                         <th style= "text-align: center; padding: 8px; color: white; font-size: 18px;">Pedido</th>
                         <th style= "text-align: center; padding: 8px; color: white; font-size: 18px;">MO</th>
