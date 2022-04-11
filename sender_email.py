@@ -1,9 +1,12 @@
-import smtplib
 import os
+import smtplib
+from email import encoders
+from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 from dotenv import load_dotenv
+
 load_dotenv()
 
 
@@ -68,6 +71,9 @@ def sabanaList(sabanaArray, avgLines):
 
 
 def sendEmail(mail_subject, mail_body, avgLines):
+    
+    path_attach = 'week_09_graph.png'
+    name_attach = 'week_09_graph.png'
 
     username = os.getenv('USER_GMAIL')
     password = os.getenv('PWD_GMAIL')
@@ -79,6 +85,13 @@ def sendEmail(mail_subject, mail_body, avgLines):
     mimemsg['To'] = 'daniel.morala@systemair.es'
     mimemsg['Subject'] = mail_subject
     mimemsg.attach(MIMEText(sabanaList(mail_body, avgLines), 'html'))
+    archivo_adjunto = open(path_attach, 'rb')
+    adjunto_MIME = MIMEBase('application', 'octet-stream')
+    adjunto_MIME.set_payload((archivo_adjunto).read())
+    encoders.encode_base64(adjunto_MIME)
+    adjunto_MIME.add_header('Content-Disposition',
+                            "attachment; filename= %s" % name_attach)
+    mimemsg.attach(adjunto_MIME)
     try:
         connection = smtplib.SMTP(host='smtp.gmail.com', port=587)
         connection.starttls()
