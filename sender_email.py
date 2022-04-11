@@ -72,8 +72,8 @@ def sabanaList(sabanaArray, avgLines):
 
 def sendEmail(mail_subject, mail_body, avgLines):
     
-    path_attach = 'week_09_graph.png'
-    name_attach = 'week_09_graph.png'
+    path_attach = 'avg_week_graph.png'
+    name_attach = 'avg_week_graph.png'
 
     username = os.getenv('USER_GMAIL')
     password = os.getenv('PWD_GMAIL')
@@ -82,7 +82,7 @@ def sendEmail(mail_subject, mail_body, avgLines):
 
     mimemsg = MIMEMultipart()
     mimemsg['From'] = mail_from
-    mimemsg['To'] = 'daniel.morala@systemair.es'
+    mimemsg['To'] = mail_to
     mimemsg['Subject'] = mail_subject
     mimemsg.attach(MIMEText(sabanaList(mail_body, avgLines), 'html'))
     archivo_adjunto = open(path_attach, 'rb')

@@ -8,7 +8,6 @@ import os
 def excelWriter(dataArray):
     
     fileName = 'dataAHU.xlsx'
-    pathFilename = 'U:/SISTEMA GESTIÓN CALIDAD/02 PROCEDIMIENTOS/PR-003 - CONTROL DE PRODUCTO NO CONFORME/01 PRODUCCIÓN/05 CONTROL RETRABAJOS (SÁBANAS)/Sabanas AHU.xlsx'
     
     if os.path.exists(fileName):
         wb = load_workbook(fileName)

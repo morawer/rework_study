@@ -19,38 +19,39 @@ def graphsAvgCreator():
 
     if os.path.exists(path):
         wb = load_workbook(path)
+        sheet = wb.active
+        lastRow = sheet.max_row
+
+        for row in range(2, lastRow):
+            cell_obj = sheet.cell(row=row, column=1)
+            date = cell_obj.value
+            dateformat = datetime.strptime(date, '%d/%m/%Y')
+            weeknumber = dateformat.strftime('%U')
+
+            if (weeknumber != weekNumberAux or initWeek == True):
+                if row > 2:
+                    dates.append(weeknumber)
+                    linesAvg = int(linesAcum)/int(weeksAcum)
+                    lines.append(linesAvg)
+                    linesAvg = 0
+                    linesAcum = 0
+                    weeksAcum = 0
+                    initWeek = False
+                weekNumberAux = weeknumber
+                linesAcum = 0
+                linesRow = sheet.cell(row=row, column=6)
+                linesInt = linesRow.value
+                linesAcum = int(linesAcum) + int(linesInt)
+                weeksAcum = weeksAcum + 1
+            else:
+                linesRow = sheet.cell(row=row, column=6)
+                linesInt = linesRow.value
+                linesAcum = int(linesAcum) + int(linesInt)
+                weeksAcum = weeksAcum + 1
     else:
         print('El archivo no existe')
 
-    sheet = wb.active
-    lastRow = sheet.max_row
-
-    for row in range(1, lastRow):
-        cell_obj = sheet.cell(row=row, column=1)
-        date = cell_obj.value
-        dateformat = datetime.strptime(date, '%d/%m/%Y')
-        weeknumber = dateformat.strftime('%U')
-                        
-        if (weeknumber != weekNumberAux or initWeek == True):
-            if row > 1:
-                dates.append(weeknumber)
-                linesAvg = int(linesAcum)/int(weeksAcum)
-                lines.append(linesAvg)
-                linesAvg = 0
-                linesAcum = 0
-                weeksAcum=0
-                initWeek = False
-            weekNumberAux = weeknumber
-            linesAcum = 0
-            linesRow = sheet.cell(row=row, column=6)
-            linesInt = linesRow.value
-            linesAcum = int(linesAcum) + int(linesInt)
-            weeksAcum = weeksAcum + 1
-        else:
-            linesRow = sheet.cell(row=row, column=6)
-            linesInt = linesRow.value
-            linesAcum = int(linesAcum) + int(linesInt)
-            weeksAcum = weeksAcum + 1
+    
         
     dates.reverse()
     lines.reverse()
@@ -71,7 +72,4 @@ def graphsAvgCreator():
     plt.title('Gráfica de media de líneas')
 
     # Mostramos Gráfica
-    plt.savefig(f'week_{weeknumber}_graph')
-
-
-graphsAvgCreator()
+    plt.savefig(f'avg_week_graph')
