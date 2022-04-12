@@ -1,5 +1,6 @@
 import os
 import smtplib
+from collections import Counter
 from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
@@ -9,9 +10,14 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-
-def sabanaList(sabanaArray, avgLines):
+def tagsStadistics(tagsArray):
+    tagsList = Counter(tagsArray)
+    listRank = tagsList.most_common(5)
+    return listRank
+    
+def sabanaList(sabanaArray, avgLines, tagsArray):
     sabanaLenght = len(sabanaArray)
+    listRank = tagsStadistics(tagsArray)
     html_body = '''
         <!DOCTYPE html>
         <html lang="es">
@@ -47,6 +53,32 @@ def sabanaList(sabanaArray, avgLines):
     html_body_end = f'''
                 </table>
                 <h3 style = "color: white">Los equipos tienen una media de {avgLines:.1f} líneas.</h3>
+                 <table style= "width: 50%; background-color: #1a4c7f; font-size: 14px; border-collapse: collapse; text-align: center; margin-left: auto; margin-right: auto;">
+                    <tr>
+                        <th style= "text-align: center; padding: 8px; color: white; font-size: 22px;">TAG's</th>
+                        <th style= "text-align: center; padding: 8px; color: white; font-size: 22px;">Veces</th>
+                    </tr>
+                    <tr style = "background-color: #33689D;">
+                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[0][0]}</td>
+                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[0][1]}</td>
+                    </tr>
+                    <tr style = "background-color: #33689D;">
+                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[1][0]}</td>
+                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[1][1]}</td>
+                    </tr>
+                    <tr style = "background-color: #33689D;">
+                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[2][0]}</td>
+                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[2][1]}</td>
+                    </tr>
+                    <tr style = "background-color: #33689D;">
+                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[3][0]}</td>
+                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[3][1]}</td>
+                    </tr>
+                    <tr style = "background-color: #33689D;">
+                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[4][0]}</td>
+                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[4][1]}</td>
+                    </tr>
+                </table>
             </div>
         </body>
         </html>
@@ -70,7 +102,7 @@ def sabanaList(sabanaArray, avgLines):
     return htmlEmail
 
 
-def sendEmail(mail_subject, mail_body, avgLines):
+def sendEmail(mail_subject, mail_body, avgLines, tagsArray):
     
     path_attach = 'avg_week_graph.png'
     name_attach = 'avg_week_graph.png'
@@ -84,7 +116,7 @@ def sendEmail(mail_subject, mail_body, avgLines):
     mimemsg['From'] = mail_from
     mimemsg['To'] = mail_to
     mimemsg['Subject'] = mail_subject
-    mimemsg.attach(MIMEText(sabanaList(mail_body, avgLines), 'html'))
+    mimemsg.attach(MIMEText(sabanaList(mail_body, avgLines, tagsArray), 'html'))
     archivo_adjunto = open(path_attach, 'rb')
     adjunto_MIME = MIMEBase('application', 'octet-stream')
     adjunto_MIME.set_payload((archivo_adjunto).read())
@@ -98,5 +130,6 @@ def sendEmail(mail_subject, mail_body, avgLines):
         connection.login(username, password)
         connection.send_message(mimemsg)
         connection.quit()
+        print('>> EMAIL SENDED <<')
     except:
         print('Algo salió mal... El email no pudo ser enviado.')

@@ -33,7 +33,7 @@ while opt > str(2):
     print('[1]: Última semana.\n[2]: Selección de fecha manual.')
     opt = input('>>> ')
     if opt == str(1):
-        date1LastWeek = (datetime.now() - timedelta(days=120))
+        date1LastWeek = (datetime.now() - timedelta(days=100))
         weekNum = date1LastWeek.strftime('%U')
         subjectEmail = f'SEMANA {weekNum}: Informe de equipos revisados'
         date1Formatted = str(date1LastWeek.date())
@@ -51,6 +51,7 @@ totalLines = 0
 checkedAHU = 0
 dataArray = []
 sabanaArray = []
+tagsArray = []
 
 jsonResponse = inspections_list.todoList(
     tokenNotion, database, date1Formatted, date2Formatted)
@@ -103,7 +104,8 @@ for data in jsonData['results']:
         counterTags = counterTags + 1
         print(f'[{counterTags}] {nameTag}')
         dataArray.append(nameTag)
-
+        tagsArray.append(nameTag)
+    
     sabana = Sabana(dataOrder, dateFinal, dataMo, dataModelAHU, jsonInspectorName, int(countLines), dataArray, dataURL)
     excel_writer.excelWriter(sabana)
     sabanaArray.append(sabana)
@@ -116,4 +118,4 @@ sabanaArray.sort(key=getKey, reverse=True)
 
 avgLines = totalLines/sabanaLenght
 graphs.graphsAvgCreator()
-sender_email.sendEmail(mail_subject= subjectEmail, mail_body= sabanaArray, avgLines=avgLines)
+sender_email.sendEmail(mail_subject= subjectEmail, mail_body= sabanaArray, avgLines=avgLines, tagsArray=tagsArray)
