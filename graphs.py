@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import numpy as np
 from openpyxl import load_workbook
 import os
 from datetime import datetime
@@ -12,6 +13,7 @@ def graphsAvgCreator():
     linesRow = 0
     dates = []
     lines = []
+    counterAHU = []
     weeksAcum = 0
     initWeek = True
 
@@ -33,6 +35,7 @@ def graphsAvgCreator():
                     dates.append(weeknumber)
                     linesAvg = int(linesAcum)/int(weeksAcum)
                     lines.append(linesAvg)
+                    counterAHU.append(weeksAcum)
                     linesAvg = 0
                     linesAcum = 0
                     weeksAcum = 0
@@ -56,20 +59,16 @@ def graphsAvgCreator():
     dates.reverse()
     lines.reverse()
 
-    eje_x = dates
-    eje_y = lines
-
-    # Creamos Gráfica
-    plt.bar(eje_x, eje_y)
-
-    # Legenda en el eje y
-    plt.ylabel('Media de lineas por equipo:')
-
-    # Legenda en el eje x
-    plt.xlabel('Semana:')
-
-    # Título de Gráfica
-    plt.title('Gráfica de media de líneas')
-
-    # Mostramos Gráfica
+    fig, ax = plt.subplots()
+    x = np.arange(len(dates))
+    width = 0.35
+    bar1 = ax.bar(x - width/2, counterAHU, width, label="Nº UTA's")
+    bar2 = ax.bar(x - width/2, lines, width, label= "Media de lineas")
+    
+    ax.set_ylabel('Media por UTA')
+    ax.set_title('Gráfica media de lineas por semana y UTA')
+    ax.set_xticks(x)
+    ax.set_xticklabels(dates)
+    ax.legend()
+    
     plt.savefig(f'avg_week_graph')
