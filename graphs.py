@@ -63,12 +63,16 @@ def graphsAvgCreator():
     x = np.arange(len(dates))
     width = 0.35
     bar1 = ax.bar(x - width/2, counterAHU, width, label="Nº UTA's")
-    bar2 = ax.bar(x - width/2, lines, width, label= "Media de lineas")
+    bar2 = ax.bar(x + width/2, lines, width, label= "Media de lineas")
     
     ax.set_ylabel('Media por UTA')
     ax.set_title('Gráfica media de lineas por semana y UTA')
     ax.set_xticks(x)
     ax.set_xticklabels(dates)
     ax.legend()
+
+    fig.tight_layout()
     
-    plt.savefig(f'avg_week_graph')
+    dateGraph = datetime.now()
+    dateGraphWeekNumber = dateGraph.strftime('%U')
+    plt.savefig(f'avg_week_{dateGraphWeekNumber}_graph')

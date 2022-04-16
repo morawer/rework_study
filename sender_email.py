@@ -1,6 +1,7 @@
 import os
 import smtplib
 from collections import Counter
+from datetime import datetime
 from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
@@ -104,8 +105,11 @@ def sabanaList(sabanaArray, avgLines, tagsArray):
 
 def sendEmail(mail_subject, mail_body, avgLines, tagsArray):
     
-    path_attach = 'avg_week_graph.png'
-    name_attach = 'avg_week_graph.png'
+    dateGraph = datetime.now()
+    dateGraphWeekNumber = dateGraph.strftime('%U')
+    
+    path_attach = f'avg_week_{dateGraphWeekNumber}_graph.png'
+    name_attach = f'avg_week_{dateGraphWeekNumber}_graph.png'
 
     username = os.getenv('USER_GMAIL')
     password = os.getenv('PWD_GMAIL')
