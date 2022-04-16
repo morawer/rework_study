@@ -24,17 +24,26 @@ def graphsAvgCreator():
         sheet = wb.active
         lastRow = sheet.max_row
 
-        for row in range(2, lastRow):
+        for row in range(2, lastRow + 1):
             cell_obj = sheet.cell(row=row, column=1)
             date = cell_obj.value
             dateformat = datetime.strptime(date, '%d/%m/%Y')
             weeknumber = dateformat.strftime('%U')
 
-            if (weeknumber != weekNumberAux or initWeek == True):
+            if (weeknumber != weekNumberAux or initWeek == True or row == lastRow):
                 if row > 2:
+                    dates.append(weekNumberAux)
+                    linesAvg = int(linesAcum)/int(weeksAcum)
+                    lines.append(float("{:.1f}".format(linesAvg)))
+                    counterAHU.append(weeksAcum)
+                    linesAvg = 0
+                    linesAcum = 0
+                    weeksAcum = 0
+                    initWeek = True
+                elif row == lastRow:
                     dates.append(weeknumber)
                     linesAvg = int(linesAcum)/int(weeksAcum)
-                    lines.append(float("{:.2f}".format(linesAvg)))
+                    lines.append(float("{:.1f}".format(linesAvg)))
                     counterAHU.append(weeksAcum)
                     linesAvg = 0
                     linesAcum = 0
@@ -62,8 +71,8 @@ def graphsAvgCreator():
     bar1 = ax.bar(x - width/2, counterAHU, width, label="Nº UTA's")
     bar2 = ax.bar(x + width/2, lines, width, label= "Media de lineas")
     
-    ax.set_ylabel('Media por UTA')
-    ax.set_title('Gráfica media de lineas por semana y UTA')
+    ax.set_xlabel('Semanas')
+    ax.set_title("Número de UTA's y media de líneas por semana")
     ax.set_xticks(x)
     ax.set_xticklabels(dates)
     ax.legend()
