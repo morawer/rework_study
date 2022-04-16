@@ -62,6 +62,10 @@ def graphsAvgCreator():
                 linesAcum = int(linesAcum) + int(linesInt)
                 weeksAcum = weeksAcum + 1
                 initWeek = False
+            if len(dates) == 10:
+                dates.remove()
+                lines.remove()
+                counterAHU.remove()
     else:
         print('El archivo no existe')
 
