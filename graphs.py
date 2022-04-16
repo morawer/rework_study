@@ -34,30 +34,27 @@ def graphsAvgCreator():
                 if row > 2:
                     dates.append(weeknumber)
                     linesAvg = int(linesAcum)/int(weeksAcum)
-                    lines.append(linesAvg)
+                    lines.append(float("{:.2f}".format(linesAvg)))
                     counterAHU.append(weeksAcum)
                     linesAvg = 0
                     linesAcum = 0
                     weeksAcum = 0
-                    initWeek = False
+                    initWeek = True
                 weekNumberAux = weeknumber
                 linesAcum = 0
                 linesRow = sheet.cell(row=row, column=6)
                 linesInt = linesRow.value
                 linesAcum = int(linesAcum) + int(linesInt)
                 weeksAcum = weeksAcum + 1
+                initWeek = False
             else:
                 linesRow = sheet.cell(row=row, column=6)
                 linesInt = linesRow.value
                 linesAcum = int(linesAcum) + int(linesInt)
                 weeksAcum = weeksAcum + 1
+                initWeek = False
     else:
         print('El archivo no existe')
-
-    
-        
-    dates.reverse()
-    lines.reverse()
 
     fig, ax = plt.subplots()
     x = np.arange(len(dates))
@@ -70,7 +67,18 @@ def graphsAvgCreator():
     ax.set_xticks(x)
     ax.set_xticklabels(dates)
     ax.legend()
+    
+    def autolabel(bars):
+        for bar in bars:
+            height = bar.get_height()
+            ax.annotate('{}'.format(height),
+                    xy=(bar.get_x() + bar.get_width() / 2, height),
+                    xytext=(0, 3),  # 3 points vertical offset
+                    textcoords="offset points",
+                    ha='center', va='bottom')
 
+    autolabel(bar1)
+    autolabel(bar2)
     fig.tight_layout()
     
     dateGraph = datetime.now()

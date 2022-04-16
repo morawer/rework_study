@@ -114,8 +114,6 @@ for data in jsonData['results']:
 sabanaLenght = len(sabanaArray)
 print(f'Unidades revisadas: {sabanaLenght}')
 
-sabanaArray.sort(key=getKey, reverse=True)
-
 avgLines = totalLines/sabanaLenght
 graphs.graphsAvgCreator()
 sender_email.sendEmail(mail_subject= subjectEmail, mail_body= sabanaArray, avgLines=avgLines, tagsArray=tagsArray)

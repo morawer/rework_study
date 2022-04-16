@@ -22,7 +22,14 @@ def todoList(tokenNotion, database, date1, date2) :
             }
 
             ]
-        }
+        },
+        "sorts": [
+            {
+                "property": "Creado",
+                "direction": "ascending"
+            }
+        ]
+        
     })
     headers = {
         'Notion-Version': '2021-05-13',
