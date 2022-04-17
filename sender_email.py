@@ -11,7 +11,12 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-email_sys = os.getenv('EMAIL_SYS')
+username = os.getenv('USER_GMAIL')
+password = os.getenv('PWD_GMAIL')
+mail_from = os.getenv('USER_GMAIL')
+email_gmail_dm = os.getenv('DESTINATION_EMAIL')
+email_sys_dm = os.getenv('EMAIL_SYS_DM')
+email_sys_al = os.getenv('EMAIL_SYS_AL')
 
 def tagsStadistics(tagsArray):
     tagsList = Counter(tagsArray)
@@ -83,7 +88,7 @@ def sabanaList(sabanaArray, avgLines, tagsArray):
                     </tr>
                 </table>
                 <hr style = padding: 8px; color: white;>
-                <p style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 12px">Este correo electrónico ha sido generado automáticamente. Si no desea recibir mas correos como este escriba un correo a {email_sys}.</p>
+                <p style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 12px">Este correo electrónico ha sido generado automáticamente. Si no desea recibir mas correos como este escriba un correo a {email_sys_dm}.</p>
             </div>
         </body>
         </html>
@@ -116,14 +121,11 @@ def sendEmail(mail_subject, mail_body, avgLines, tagsArray):
     path_attach = f'avg_week_{dateGraphWeek}_graph.png'
     name_attach = f'avg_week_{dateGraphWeek}_graph.png'
 
-    username = os.getenv('USER_GMAIL')
-    password = os.getenv('PWD_GMAIL')
-    mail_from = os.getenv('USER_GMAIL')
-    mail_to = os.getenv('DESTINATION_EMAIL')
+    listEmails = [email_gmail_dm, email_sys_dm, email_sys_al]
 
     mimemsg = MIMEMultipart()
     mimemsg['From'] = mail_from
-    mimemsg['To'] = mail_to
+    mimemsg['To'] = ', '.join(listEmails)
     mimemsg['Subject'] = mail_subject
     mimemsg.attach(MIMEText(sabanaList(mail_body, avgLines, tagsArray), 'html'))
     archivo_adjunto = open(path_attach, 'rb')
