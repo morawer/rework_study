@@ -11,6 +11,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+email_sys = os.getenv('EMAIL_SYS')
+
 def tagsStadistics(tagsArray):
     tagsList = Counter(tagsArray)
     listRank = tagsList.most_common(5)
@@ -80,6 +82,8 @@ def sabanaList(sabanaArray, avgLines, tagsArray):
                         <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[4][1]}</td>
                     </tr>
                 </table>
+                <hr style = padding: 8px; color: white;>
+                <p style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 12px">Este correo electrónico ha sido generado automáticamente. Si no desea recibir mas correos como este escriba un correo a {email_sys}.</p>
             </div>
         </body>
         </html>
@@ -107,9 +111,10 @@ def sendEmail(mail_subject, mail_body, avgLines, tagsArray):
     
     dateGraph = datetime.now()
     dateGraphWeekNumber = dateGraph.strftime('%U')
+    dateGraphWeek = int(dateGraphWeekNumber) - 1
     
-    path_attach = f'avg_week_{dateGraphWeekNumber}_graph.png'
-    name_attach = f'avg_week_{dateGraphWeekNumber}_graph.png'
+    path_attach = f'avg_week_{dateGraphWeek}_graph.png'
+    name_attach = f'avg_week_{dateGraphWeek}_graph.png'
 
     username = os.getenv('USER_GMAIL')
     password = os.getenv('PWD_GMAIL')

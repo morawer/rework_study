@@ -31,7 +31,7 @@ def graphsAvgCreator():
             weeknumber = dateformat.strftime('%U')
 
             if (weeknumber != weekNumberAux or initWeek == True or row == lastRow):
-                if row > 2:
+                if row > 2 and row != lastRow:
                     dates.append(weekNumberAux)
                     linesAvg = int(linesAcum)/int(weeksAcum)
                     lines.append(float("{:.1f}".format(linesAvg)))
@@ -40,15 +40,20 @@ def graphsAvgCreator():
                     linesAcum = 0
                     weeksAcum = 0
                     initWeek = True
+                    
                 elif row == lastRow:
+                    weekNumberAux = weeknumber
+                    linesRow = sheet.cell(row=row, column=6)
+                    linesInt = linesRow.value
+                    linesAcum = int(linesAcum) + int(linesInt)
+                    weeksAcum = weeksAcum + 1
+                    initWeek = False
                     dates.append(weeknumber)
                     linesAvg = int(linesAcum)/int(weeksAcum)
                     lines.append(float("{:.1f}".format(linesAvg)))
                     counterAHU.append(weeksAcum)
-                    linesAvg = 0
-                    linesAcum = 0
-                    weeksAcum = 0
-                    initWeek = True
+                    break
+                
                 weekNumberAux = weeknumber
                 linesAcum = 0
                 linesRow = sheet.cell(row=row, column=6)
@@ -96,4 +101,5 @@ def graphsAvgCreator():
     
     dateGraph = datetime.now()
     dateGraphWeekNumber = dateGraph.strftime('%U')
-    plt.savefig(f'avg_week_{dateGraphWeekNumber}_graph')
+    dateGraphWeek = int(dateGraphWeekNumber) - 1
+    plt.savefig(f'avg_week_{dateGraphWeek}_graph')

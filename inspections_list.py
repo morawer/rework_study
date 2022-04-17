@@ -1,7 +1,7 @@
 import requests
 import json
 
-def todoList(tokenNotion, database, date1, date2) :
+def toDoList(tokenNotion, database, date1, date2) :
     
     url = f"https://api.notion.com/v1/databases/{database}/query"
     

@@ -26,34 +26,23 @@ database = os.getenv('DATABASE')
 date1Formatted = ''
 date2Formatted = ''
 weekNum = ''
-
-opt = '3'
-while opt > str(2):
-    print('Elige tipo de selección de fecha:')
-    print('[1]: Última semana.\n[2]: Selección de fecha manual.')
-    opt = input('>>> ')
-    if opt == str(1):
-        date1LastWeek = (datetime.now() - timedelta(days=100))
-        weekNum = date1LastWeek.strftime('%U')
-        subjectEmail = f'SEMANA {weekNum}: Informe de equipos revisados'
-        date1Formatted = str(date1LastWeek.date())
-        date2Formatted = str(datetime.now().date())
-    elif opt == str(2):
-        print('PERIODO DE FECHAS:')
-        print('Introduce la primera fecha')
-        date1 = input('>>> dd/mm/aaaa >>> ')
-        date1Formatted = formatDate(date1)
-        print('Introduce la segunda fecha')
-        date2 = input('>>> dd/mm/aaaa >>> ')
-        date2Formatted = formatDate(date2)
-
 totalLines = 0
 checkedAHU = 0
 dataArray = []
 sabanaArray = []
 tagsArray = []
 
-jsonResponse = inspections_list.todoList(
+date1LastWeek = (datetime.now() - timedelta(days=8))
+weekNum = date1LastWeek.strftime('%U')
+subjectEmail = f'SEMANA {weekNum}: Informe de equipos revisados'
+date1Formatted = str(date1LastWeek.date())
+date2Formatted = str(datetime.now().date())
+
+print('[+] Obteniendo equipos revisados...')
+print('************************************************')
+
+
+jsonResponse = inspections_list.toDoList(
     tokenNotion, database, date1Formatted, date2Formatted)
 jsonData = json.loads(jsonResponse)
 
@@ -114,6 +103,7 @@ for data in jsonData['results']:
 sabanaLenght = len(sabanaArray)
 print(f'Unidades revisadas: {sabanaLenght}')
 
+sabanaArray.sort(key=getKey, reverse=True)
 avgLines = totalLines/sabanaLenght
 graphs.graphsAvgCreator()
 sender_email.sendEmail(mail_subject= subjectEmail, mail_body= sabanaArray, avgLines=avgLines, tagsArray=tagsArray)
