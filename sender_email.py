@@ -16,7 +16,7 @@ password = os.getenv('PWD_GMAIL')
 mail_from = os.getenv('USER_GMAIL')
 email_gmail_dm = os.getenv('DESTINATION_EMAIL')
 email_sys_dm = os.getenv('EMAIL_SYS_DM')
-email_sys_al = os.getenv('EMAIL_SYS_AL')
+email_sys_al = os.getenv('EMAIL_SYS_AS')
 
 def tagsStadistics(tagsArray):
     tagsList = Counter(tagsArray)
@@ -121,11 +121,11 @@ def sendEmail(mail_subject, mail_body, avgLines, tagsArray):
     path_attach = f'avg_week_{dateGraphWeek}_graph.png'
     name_attach = f'avg_week_{dateGraphWeek}_graph.png'
 
-    listEmails = [email_gmail_dm, email_sys_dm, email_sys_al]
+    #listEmails = [email_gmail_dm, email_sys_dm, email_sys_al]
 
     mimemsg = MIMEMultipart()
     mimemsg['From'] = mail_from
-    mimemsg['To'] = ', '.join(listEmails)
+    mimemsg['To'] = email_sys_al
     mimemsg['Subject'] = mail_subject
     mimemsg.attach(MIMEText(sabanaList(mail_body, avgLines, tagsArray), 'html'))
     archivo_adjunto = open(path_attach, 'rb')
