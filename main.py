@@ -6,23 +6,28 @@ from dotenv import load_dotenv
 
 import counter_lines
 import excel_writer
+import graphs
 import inspections_list
 import sender_email
 from sabana_class import Sabana
-import graphs
 
 load_dotenv()
 
+#Get period the execution program date and last week date.
+def getDates(): 
+    date1LastWeek = (datetime.now() - timedelta(days=8))
+    weekNum = date1LastWeek.strftime('%U')
+    subjectEmail = f'SEMANA {weekNum}: Informe de equipos revisados'
+    date1Formatted = str(date1LastWeek.date())
+    date2Formatted = str(datetime.now().date())
+    return date1Formatted, date2Formatted, subjectEmail
+
 def getKey(obj):
     return obj.lines
-
-def formatDate(date):
-    dateSplit = date.split('/')
-    return '-'.join(reversed(dateSplit))
-
+#Get token and database id from .env
 tokenNotion = os.getenv('TOKEN_NOTION')
 database = os.getenv('DATABASE')
-
+#Variables
 date1Formatted = ''
 date2Formatted = ''
 weekNum = ''
@@ -32,20 +37,17 @@ dataArray = []
 sabanaArray = []
 tagsArray = []
 
-date1LastWeek = (datetime.now() - timedelta(days=8))
-weekNum = date1LastWeek.strftime('%U')
-subjectEmail = f'SEMANA {weekNum}: Informe de equipos revisados'
-date1Formatted = str(date1LastWeek.date())
-date2Formatted = str(datetime.now().date())
+date1Formatted, date2Formatted, subjectEmail = getDates()
 
 print('[+] Obteniendo equipos revisados...')
 print('************************************************')
 
-
+#Do the request to Notion and get the Json with the data list.
 jsonResponse = inspections_list.toDoList(
     tokenNotion, database, date1Formatted, date2Formatted)
 jsonData = json.loads(jsonResponse)
 
+#Read the json and get the data in variables
 for data in jsonData['results']:
     dataArray.clear()
 
@@ -95,8 +97,11 @@ for data in jsonData['results']:
         dataArray.append(nameTag)
         tagsArray.append(nameTag)
     
+    #Create a object with the datas.
     sabana = Sabana(dataOrder, dateFinal, dataMo, dataModelAHU, jsonInspectorName, int(countLines), dataArray, dataURL)
+    #Write a excel row with the object datas.
     excel_writer.excelWriter(sabana)
+    #Add the object into the a list.
     sabanaArray.append(sabana)
     print('************************************************')
     
