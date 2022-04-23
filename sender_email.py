@@ -26,6 +26,11 @@ def tagsStadistics(tagsArray):
 def sabanaList(sabanaArray, avgLines, tagsArray):
     sabanaLenght = len(sabanaArray)
     listRank = tagsStadistics(tagsArray)
+    percentTags1 = (listRank[0][1] / sabanaLenght) * 100
+    percentTags2 = (listRank[1][1] / sabanaLenght) * 100
+    percentTags3 = (listRank[2][1] / sabanaLenght) * 100
+    percentTags4 = (listRank[3][1] / sabanaLenght) * 100
+    percentTags5 = (listRank[4][1] / sabanaLenght) * 100
     html_body = '''
         <!DOCTYPE html>
         <html lang="es">
@@ -64,27 +69,27 @@ def sabanaList(sabanaArray, avgLines, tagsArray):
                  <table style= "width: 50%; background-color: #1a4c7f; font-size: 14px; border-collapse: collapse; text-align: center; margin-left: auto; margin-right: auto;">
                     <tr>
                         <th style= "text-align: center; padding: 8px; color: white; font-size: 22px;">TAG's</th>
-                        <th style= "text-align: center; padding: 8px; color: white; font-size: 22px;">Veces</th>
+                        <th style= "text-align: center; padding: 8px; color: white; font-size: 22px;">Porcentaje</th>
                     </tr>
                     <tr style = "background-color: #33689D;">
                         <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[0][0]}</td>
-                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[0][1]}</td>
+                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{percentTags1:.1f} %</td>
                     </tr>
                     <tr style = "background-color: #33689D;">
                         <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[1][0]}</td>
-                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[1][1]}</td>
+                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{percentTags2:.1f} %</td>
                     </tr>
                     <tr style = "background-color: #33689D;">
                         <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[2][0]}</td>
-                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[2][1]}</td>
+                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{percentTags3:.1f} %</td>
                     </tr>
                     <tr style = "background-color: #33689D;">
                         <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[3][0]}</td>
-                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[3][1]}</td>
+                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{percentTags4:.1f} %</td>
                     </tr>
                     <tr style = "background-color: #33689D;">
                         <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[4][0]}</td>
-                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[4][1]}</td>
+                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{percentTags5:.1f} %</td>
                     </tr>
                 </table>
                 <hr style = padding: 8px; color: white;>
@@ -125,7 +130,7 @@ def sendEmail(mail_subject, mail_body, avgLines, tagsArray):
 
     mimemsg = MIMEMultipart()
     mimemsg['From'] = mail_from
-    mimemsg['To'] = email_sys_al
+    mimemsg['To'] = email_gmail_dm
     mimemsg['Subject'] = mail_subject
     mimemsg.attach(MIMEText(sabanaList(mail_body, avgLines, tagsArray), 'html'))
     archivo_adjunto = open(path_attach, 'rb')
