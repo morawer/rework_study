@@ -73,7 +73,14 @@ def graphsAvgCreator():
                 counterAHU.remove(counterAHU[0])
     else:
         print('El archivo no existe')
+        
+    def totalAvgLines():
+        avgAcum = 0
+        for avg in lines:
+            avgAcum = avgAcum + avg
+        return avgAcum / len(lines)
 
+    totalAvgLines = totalAvgLines()
     fig, ax = plt.subplots()
     x = np.arange(len(dates))
     width = 0.35
@@ -81,9 +88,11 @@ def graphsAvgCreator():
     bar2 = ax.bar(x + width/2, lines, width, label= "Media de lineas")
     
     ax.set_xlabel('Semanas')
-    ax.set_title("Número de UTA's y media de líneas por semana")
+    ax.set_title(f"Número de UTA's y media de líneas por semana | totalAvg: {totalAvgLines:.1f}")
     ax.set_xticks(x)
     ax.set_xticklabels(dates)
+    
+    ax.axhline(y=totalAvgLines, linewidth=3, color='r')
     ax.legend()
     
     def autolabel(bars):
