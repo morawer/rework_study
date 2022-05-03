@@ -59,6 +59,7 @@ def sabanaList(sabanaArray, avgLines, tagsArray):
                         <th style= "text-align: center; padding: 8px; color: white; font-size: 18px;">Modelo</th>
                         <th style= "text-align: center; padding: 8px; color: white; font-size: 18px;">Inspector</th>
                         <th style= "text-align: center; padding: 8px; color: white; font-size: 18px;">Líneas de sábana</th>
+                        <th style= "text-align: center; padding: 8px; color: white; font-size: 18px;">Nº operarios</th>
                     </tr>
         '''
     html_sabana = ''' '''
@@ -104,13 +105,15 @@ def sabanaList(sabanaArray, avgLines, tagsArray):
             html_sabana = html_sabana + '<tr style = "background-color: #33689D;"><td style = "text-align: center; padding: 8px; color: white;"><a href=' + sabana.url + ' style = "color: white; background-color: transparent; text-decoration: none; font-weight: bold;" target= "_blank">' + sabana.order + '</td><td style= "text-align: center; padding: 8px; color: white;">' + str(sabana.mo) + '</td><td style= "text-align: center; padding: 8px; color: white;">' + sabana.model + \
                 '</td><td style= "text-align: center; padding: 8px; color: white;">' + sabana.inspector + \
                 '</td><td style= "text-align: center; padding: 8px; color: white;">' + \
-                str(sabana.lines) + '</td></tr>'
+                str(sabana.lines) + '</td><td style= "text-align: center; padding: 8px; color: white;">' + \
+                str(sabana.numberWorkers) + '</td></tr>'
         else:
             html_sabana = html_sabana + '<tr style = "background-color: #1a4c7f;"><td style = "text-align: center; padding: 8px; color: white;"><a href=' + sabana.url + ' style = "color: white; background-color: transparent; text-decoration: none; font-weight: bold;" target= "_blank">' + sabana.order + '</td><td style= "text-align: center; padding: 8px; color: white;">' + str(sabana.mo) + \
                 '</td><td style= "text-align: center; padding: 8px; color: white;">' + sabana.model + \
                 '</td><td style= "text-align: center; padding: 8px; color: white;">' + sabana.inspector + \
                 '</td><td style= "text-align: center; padding: 8px; color: white;">' + \
-                str(sabana.lines) + '</td></tr>'
+                str(sabana.lines) + '</td><td style= "text-align: center; padding: 8px; color: white;">' + \
+                str(sabana.numberWorkers) + '</td></tr>'
         a = a + 1
     htmlEmail = html_body + htmlBodyTitle + \
         htmlBodyTable + html_sabana + html_body_end

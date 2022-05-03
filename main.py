@@ -66,6 +66,10 @@ for data in jsonData['results']:
         dataOrderText = data['text']
         dataOrder = dataOrderText['content']
         print(dataOrder)
+    
+    jsonWorker = jsonProperties['Operarios']
+    jsonWorkerMultiSelect = jsonWorker['multi_select']
+    numberWorkers = len(jsonWorkerMultiSelect)
 
     jsonInspector = jsonProperties['Inspector']
     jsonInspectorSelect = jsonInspector['select']
@@ -98,7 +102,7 @@ for data in jsonData['results']:
         tagsArray.append(nameTag)
     
     #Create a object with the datas.
-    sabana = Sabana(dataOrder, dateFinal, dataMo, dataModelAHU, jsonInspectorName, int(countLines), dataArray, dataURL)
+    sabana = Sabana(dataOrder, dateFinal, dataMo, dataModelAHU, jsonInspectorName, int(countLines), dataArray, dataURL, numberWorkers)
     #Write a excel row with the object datas.
     excel_writer.excelWriter(sabana)
     #Add the object into the a list.
