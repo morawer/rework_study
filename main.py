@@ -36,6 +36,8 @@ checkedAHU = 0
 dataArray = []
 sabanaArray = []
 tagsArray = []
+numberWorkers = 0
+numberWorkersAcum = 0
 
 date1Formatted, date2Formatted, subjectEmail = getDates()
 
@@ -70,6 +72,7 @@ for data in jsonData['results']:
     jsonWorker = jsonProperties['Operarios']
     jsonWorkerMultiSelect = jsonWorker['multi_select']
     numberWorkers = len(jsonWorkerMultiSelect)
+    numberWorkersAcum = numberWorkersAcum + numberWorkers
 
     jsonInspector = jsonProperties['Inspector']
     jsonInspectorSelect = jsonInspector['select']
@@ -114,5 +117,7 @@ print(f'Unidades revisadas: {sabanaLenght}')
 
 sabanaArray.sort(key=getKey, reverse=True)
 avgLines = totalLines/sabanaLenght
+
+avgWorkers = numberWorkersAcum/sabanaLenght
 graphs.graphsAvgCreator()
-sender_email.sendEmail(mail_subject= subjectEmail, mail_body= sabanaArray, avgLines=avgLines, tagsArray=tagsArray)
+sender_email.sendEmail(mail_subject= subjectEmail, mail_body= sabanaArray, avgLines=avgLines, tagsArray=tagsArray, avgWorkers=avgWorkers)

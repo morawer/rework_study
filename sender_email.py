@@ -23,7 +23,7 @@ def tagsStadistics(tagsArray):
     listRank = tagsList.most_common(5)
     return listRank
     
-def sabanaList(sabanaArray, avgLines, tagsArray):
+def sabanaList(sabanaArray, avgLines, tagsArray, avgWorkers):
     sabanaLenght = len(sabanaArray)
     listRank = tagsStadistics(tagsArray)
     percentTags1 = (listRank[0][1] / sabanaLenght) * 100
@@ -67,6 +67,8 @@ def sabanaList(sabanaArray, avgLines, tagsArray):
     html_body_end = f'''
                 </table>
                 <h3 style = "color: white">Los equipos tienen una media de {avgLines:.1f} líneas.</h3>
+                <h3 style = "color: white">La media es de {avgWorkers:.1f} operarios por equipo.</h3>
+
                  <table style= "width: 50%; background-color: #1a4c7f; font-size: 14px; border-collapse: collapse; text-align: center; margin-left: auto; margin-right: auto;">
                     <tr>
                         <th style= "text-align: center; padding: 8px; color: white; font-size: 22px;">TAG's</th>
@@ -120,7 +122,7 @@ def sabanaList(sabanaArray, avgLines, tagsArray):
     return htmlEmail
 
 
-def sendEmail(mail_subject, mail_body, avgLines, tagsArray):
+def sendEmail(mail_subject, mail_body, avgLines, tagsArray, avgWorkers):
     
     dateGraph = datetime.now()
     dateGraphWeekNumber = dateGraph.strftime('%U')
@@ -135,7 +137,7 @@ def sendEmail(mail_subject, mail_body, avgLines, tagsArray):
     mimemsg['From'] = mail_from
     mimemsg['To'] = email_gmail_dm
     mimemsg['Subject'] = mail_subject
-    mimemsg.attach(MIMEText(sabanaList(mail_body, avgLines, tagsArray), 'html'))
+    mimemsg.attach(MIMEText(sabanaList(mail_body, avgLines, tagsArray, avgWorkers), 'html'))
     archivo_adjunto = open(path_attach, 'rb')
     adjunto_MIME = MIMEBase('application', 'octet-stream')
     adjunto_MIME.set_payload((archivo_adjunto).read())
