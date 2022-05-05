@@ -95,7 +95,7 @@ for data in jsonData['results']:
 
     jsonTags = jsonProperties['Tags']
     jsonMultiSelect = jsonTags['multi_select']
-    
+    numberTags = len(jsonMultiSelect)
     counterTags = 0
     for dataName in jsonMultiSelect:
         nameTag = dataName['name']
@@ -105,7 +105,7 @@ for data in jsonData['results']:
         tagsArray.append(nameTag)
     
     #Create a object with the datas.
-    sabana = Sabana(dataOrder, dateFinal, dataMo, dataModelAHU, jsonInspectorName, int(countLines), dataArray, dataURL, numberWorkers)
+    sabana = Sabana(dataOrder, dateFinal, dataMo, dataModelAHU, jsonInspectorName, int(countLines), dataArray, dataURL, numberWorkers, numberTags)
     #Write a excel row with the object datas.
     excel_writer.excelWriter(sabana)
     #Add the object into the a list.
