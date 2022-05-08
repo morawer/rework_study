@@ -136,7 +136,7 @@ def sendEmail(mail_subject, mail_body, avgLines, tagsArray, avgWorkers):
     path_attach = f'avg_week_{dateGraphWeek}_graph.png'
     name_attach = f'avg_week_{dateGraphWeek}_graph.png'
 
-    listEmails = ['morala84@gmail.com','damoji50@hotmail.com','david.arroyo@systemair.es']
+    listEmails = [] # Write the multiples emails here.
 
     mimemsg = MIMEMultipart()
     mimemsg['From'] = mail_from
