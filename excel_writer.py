@@ -7,7 +7,7 @@ import os
 
 def excelWriter(dataArray):
     
-    fileName = '/home/dani/projects/rework_study/dataAHU.xlsx'
+    fileName = '/home/dani/Projects/rework_study/dataAHU.xlsx'
     
     if os.path.exists(fileName):
         wb = load_workbook(fileName)

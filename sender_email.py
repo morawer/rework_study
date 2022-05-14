@@ -140,7 +140,7 @@ def sendEmail(mail_subject, mail_body, avgLines, tagsArray, avgWorkers):
 
     mimemsg = MIMEMultipart()
     mimemsg['From'] = mail_from
-    mimemsg['To'] = (',').join(listEmails)
+    mimemsg['To'] = email_gmail_dm
     mimemsg['Subject'] = mail_subject
     mimemsg.attach(MIMEText(sabanaList(mail_body, avgLines, tagsArray, avgWorkers), 'html'))
     archivo_adjunto = open(path_attach, 'rb')

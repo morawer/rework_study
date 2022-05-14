@@ -15,7 +15,7 @@ load_dotenv()
 
 #Get period the execution program date and last week date.
 def getDates(): 
-    date1LastWeek = (datetime.now() - timedelta(days=8)) #The value 8 gives the last week.
+    date1LastWeek = (datetime.now() - timedelta(days=14)) #The value 8 gives the last week.
     weekNum = date1LastWeek.strftime('%U')
     subjectEmail = f'SEMANA {weekNum}: Informe de equipos revisados'
     date1Formatted = str(date1LastWeek.date())

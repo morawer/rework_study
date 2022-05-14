@@ -112,4 +112,4 @@ def graphsAvgCreator():
     dateGraphWeekNumber = dateGraph.strftime('%U')
     dateGraphWeek = int(dateGraphWeekNumber) - 1
     plt.savefig(
-        f'/home/dani/projects/rework_study/avg_week_{dateGraphWeek}_graph')
+        f'/home/dani/Projects/rework_study/avg_week_{dateGraphWeek}_graph')
