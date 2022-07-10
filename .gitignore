@@ -3,3 +3,4 @@ __pycache__
 .ipynb_checkpoints
 dataAHU.xlsx
 /src/logo.jpeg
+avg_week_*.png
