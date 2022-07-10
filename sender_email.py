@@ -14,6 +14,7 @@ load_dotenv()
 username = os.getenv('USER_GMAIL')
 password = os.getenv('PWD_GMAIL')
 recipients = os.getenv('RECIPIENT')
+email_sys_dm = os.getenv('EMAIL_SYS_DM')
 
 def tagsStadistics(tagsArray):
     tagsList = Counter(tagsArray)
@@ -131,8 +132,6 @@ def sendEmail(mail_subject, mail_body, avgLines, tagsArray, avgWorkers):
     
     path_attach = f'/home/dani/projects/rework_study/avg_week_{dateGraphWeek}_graph.png'
     name_attach = f'/home/dani/projects/rework_study/avg_week_{dateGraphWeek}_graph.png'
-
-    recipients = 'morala84@gmail.com,alberto.solar@systemair.es,antonio.mencias@systemair.es,fernando.vaquero@systemair.es' # Write the multiples emails here.
 
     mimemsg = MIMEMultipart()
     mimemsg['From'] = username
