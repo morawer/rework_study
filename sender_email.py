@@ -8,16 +8,12 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 from dotenv import load_dotenv
-from numpy import number
 
 load_dotenv()
 
 username = os.getenv('USER_GMAIL')
 password = os.getenv('PWD_GMAIL')
-mail_from = os.getenv('USER_GMAIL')
-email_gmail_dm = os.getenv('DESTINATION_EMAIL')
-email_sys_dm = os.getenv('EMAIL_SYS_DM')
-email_sys_al = os.getenv('EMAIL_SYS_AS')
+recipients = os.getenv('RECIPIENT')
 
 def tagsStadistics(tagsArray):
     tagsList = Counter(tagsArray)
@@ -133,14 +129,14 @@ def sendEmail(mail_subject, mail_body, avgLines, tagsArray, avgWorkers):
     dateGraphWeekNumber = dateGraph.strftime('%U')
     dateGraphWeek = int(dateGraphWeekNumber) - 1
     
-    path_attach = f'avg_week_{dateGraphWeek}_graph.png'
-    name_attach = f'avg_week_{dateGraphWeek}_graph.png'
+    path_attach = f'/home/dani/projects/rework_study/avg_week_{dateGraphWeek}_graph.png'
+    name_attach = f'/home/dani/projects/rework_study/avg_week_{dateGraphWeek}_graph.png'
 
-    listEmails = [] # Write the multiples emails here.
+    recipients = 'morala84@gmail.com,alberto.solar@systemair.es,antonio.mencias@systemair.es,fernando.vaquero@systemair.es' # Write the multiples emails here.
 
     mimemsg = MIMEMultipart()
-    mimemsg['From'] = mail_from
-    mimemsg['To'] = email_gmail_dm
+    mimemsg['From'] = username
+    mimemsg['To'] = (', ').join(recipients.split(','))
     mimemsg['Subject'] = mail_subject
     mimemsg.attach(MIMEText(sabanaList(mail_body, avgLines, tagsArray, avgWorkers), 'html'))
     archivo_adjunto = open(path_attach, 'rb')
