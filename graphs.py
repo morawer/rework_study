@@ -17,7 +17,7 @@ def graphsAvgCreator():
     weeksAcum = 0
     initWeek = True
 
-    path = 'dataAHU.xlsx'
+    path = '/home/dani/projects/rework_study/dataAHU.xlsx'
 
     if os.path.exists(path):
         wb = load_workbook(path)
@@ -28,7 +28,7 @@ def graphsAvgCreator():
             cell_obj = sheet.cell(row=row, column=1)
             date = cell_obj.value
             dateformat = datetime.strptime(date, '%d/%m/%Y')
-            weeknumber = dateformat.strftime('%U')
+            weeknumber = dateformat.strftime('%W')
 
             if (weeknumber != weekNumberAux or initWeek == True or row == lastRow):
                 if row > 2 and row != lastRow:
@@ -73,7 +73,14 @@ def graphsAvgCreator():
                 counterAHU.remove(counterAHU[0])
     else:
         print('El archivo no existe')
+        
+    def totalAvgLines():
+        avgAcum = 0
+        for avg in lines:
+            avgAcum = avgAcum + avg
+        return avgAcum / len(lines)
 
+    totalAvgLines = totalAvgLines()
     fig, ax = plt.subplots()
     x = np.arange(len(dates))
     width = 0.35
@@ -81,9 +88,11 @@ def graphsAvgCreator():
     bar2 = ax.bar(x + width/2, lines, width, label= "Media de lineas")
     
     ax.set_xlabel('Semanas')
-    ax.set_title("Número de UTA's y media de líneas por semana")
+    ax.set_title(f"Número de UTA's y media de líneas por semana | totalAvg: {totalAvgLines:.1f}")
     ax.set_xticks(x)
     ax.set_xticklabels(dates)
+    
+    ax.axhline(y=totalAvgLines, linewidth=3, color='r')
     ax.legend()
     
     def autolabel(bars):
@@ -100,6 +109,7 @@ def graphsAvgCreator():
     fig.tight_layout()
     
     dateGraph = datetime.now()
-    dateGraphWeekNumber = dateGraph.strftime('%U')
+    dateGraphWeekNumber = dateGraph.strftime('%W')
     dateGraphWeek = int(dateGraphWeekNumber) - 1
-    plt.savefig(f'avg_week_{dateGraphWeek}_graph')
+    plt.savefig(
+        f'/home/dani/projects/rework_study/avg_week_{dateGraphWeek}_graph')

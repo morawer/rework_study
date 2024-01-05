@@ -2,27 +2,28 @@ import json
 import os
 from datetime import datetime, timedelta
 
-from dotenv import load_dotenv
-
 import counter_lines
 import excel_writer
+import graphs
 import inspections_list
 import sender_email
 from sabana_class import Sabana
-import graphs
 
-load_dotenv()
+#Get period the execution program date and last week date.
+def getDates(): 
+    date1LastWeek = (datetime.now() - timedelta(days=8)) #The value 8 gives the last week.
+    weekNum = date1LastWeek.strftime('%U')
+    subjectEmail = f'SEMANA {weekNum}: Informe de equipos revisados'
+    date1Formatted = str(date1LastWeek.date())
+    date2Formatted = str(datetime.now().date())
+    return date1Formatted, date2Formatted, subjectEmail
 
 def getKey(obj):
     return obj.lines
-
-def formatDate(date):
-    dateSplit = date.split('/')
-    return '-'.join(reversed(dateSplit))
-
-tokenNotion = os.getenv('TOKEN_NOTION')
-database = os.getenv('DATABASE')
-
+#Get token and database id from .env
+tokenNotion = 'Bearer secret_HGe6PIekh0l7To5YecWsuIn769JveqE88SrSO1IjkQL'
+database = 'bc474cda1d40437784f02ec210446a48'
+#Variables
 date1Formatted = ''
 date2Formatted = ''
 weekNum = ''
@@ -31,21 +32,20 @@ checkedAHU = 0
 dataArray = []
 sabanaArray = []
 tagsArray = []
+numberWorkers = 0
+numberWorkersAcum = 0
 
-date1LastWeek = (datetime.now() - timedelta(days=8))
-weekNum = date1LastWeek.strftime('%U')
-subjectEmail = f'SEMANA {weekNum}: Informe de equipos revisados'
-date1Formatted = str(date1LastWeek.date())
-date2Formatted = str(datetime.now().date())
+date1Formatted, date2Formatted, subjectEmail = getDates()
 
 print('[+] Obteniendo equipos revisados...')
 print('************************************************')
 
-
+#Do the request to Notion and get the Json with the data list.
 jsonResponse = inspections_list.toDoList(
     tokenNotion, database, date1Formatted, date2Formatted)
 jsonData = json.loads(jsonResponse)
 
+#Read the json and get the data in variables
 for data in jsonData['results']:
     dataArray.clear()
 
@@ -64,6 +64,11 @@ for data in jsonData['results']:
         dataOrderText = data['text']
         dataOrder = dataOrderText['content']
         print(dataOrder)
+    
+    jsonWorker = jsonProperties['Operarios']
+    jsonWorkerMultiSelect = jsonWorker['multi_select']
+    numberWorkers = len(jsonWorkerMultiSelect)
+    numberWorkersAcum = numberWorkersAcum + numberWorkers
 
     jsonInspector = jsonProperties['Inspector']
     jsonInspectorSelect = jsonInspector['select']
@@ -86,7 +91,7 @@ for data in jsonData['results']:
 
     jsonTags = jsonProperties['Tags']
     jsonMultiSelect = jsonTags['multi_select']
-    
+    numberTags = len(jsonMultiSelect)
     counterTags = 0
     for dataName in jsonMultiSelect:
         nameTag = dataName['name']
@@ -95,8 +100,11 @@ for data in jsonData['results']:
         dataArray.append(nameTag)
         tagsArray.append(nameTag)
     
-    sabana = Sabana(dataOrder, dateFinal, dataMo, dataModelAHU, jsonInspectorName, int(countLines), dataArray, dataURL)
+    #Create a object with the datas.
+    sabana = Sabana(dataOrder, dateFinal, dataMo, dataModelAHU, jsonInspectorName, int(countLines), dataArray, dataURL, numberWorkers, numberTags)
+    #Write a excel row with the object datas.
     excel_writer.excelWriter(sabana)
+    #Add the object into the a list.
     sabanaArray.append(sabana)
     print('************************************************')
     
@@ -105,5 +113,7 @@ print(f'Unidades revisadas: {sabanaLenght}')
 
 sabanaArray.sort(key=getKey, reverse=True)
 avgLines = totalLines/sabanaLenght
+
+avgWorkers = numberWorkersAcum/sabanaLenght
 graphs.graphsAvgCreator()
-sender_email.sendEmail(mail_subject= subjectEmail, mail_body= sabanaArray, avgLines=avgLines, tagsArray=tagsArray)
+sender_email.sendEmail(mail_subject= subjectEmail, mail_body= sabanaArray, avgLines=avgLines, tagsArray=tagsArray, avgWorkers=avgWorkers)

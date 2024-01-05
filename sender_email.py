@@ -13,19 +13,67 @@ load_dotenv()
 
 username = os.getenv('USER_GMAIL')
 password = os.getenv('PWD_GMAIL')
-mail_from = os.getenv('USER_GMAIL')
-email_gmail_dm = os.getenv('DESTINATION_EMAIL')
+recipients = os.getenv('RECIPIENT')
 email_sys_dm = os.getenv('EMAIL_SYS_DM')
-email_sys_al = os.getenv('EMAIL_SYS_AL')
 
 def tagsStadistics(tagsArray):
     tagsList = Counter(tagsArray)
     listRank = tagsList.most_common(5)
     return listRank
     
-def sabanaList(sabanaArray, avgLines, tagsArray):
+def sabanaList(sabanaArray, avgLines, tagsArray, avgWorkers):
     sabanaLenght = len(sabanaArray)
     listRank = tagsStadistics(tagsArray)
+    try:
+        percentTags1 = (listRank[0][1] / sabanaLenght) * 100
+    except:
+        percentTags1 = 0
+        
+    try:
+        percentTags2 = (listRank[1][1] / sabanaLenght) * 100
+    except:
+        percentTags2 = 0
+        
+    try:
+        percentTags3 = (listRank[2][1] / sabanaLenght) * 100
+    except:
+        percentTags3 = 0
+        
+    try:
+        percentTags4 = (listRank[3][1] / sabanaLenght) * 100
+    except:
+        percentTags4 = 0
+        
+    try:
+        percentTags5 = (listRank[4][1] / sabanaLenght) * 100
+    except: 
+        percentTags5 = 0
+        
+    try:
+        tag_1 = listRank[0][0]
+    except:
+        tag_1 = "N/A"
+    
+    try:
+        tag_2 = listRank[1][0]
+    except:
+        tag_2 = "N/A"
+        
+    try:
+        tag_3 = listRank[2][0]
+    except:
+        tag_3 = "N/A"
+        
+    try:
+        tag_4 = listRank[3][0]
+    except:
+        tag_4 = "N/A"
+        
+    try:
+        tag_5 = listRank[4][0]
+    except:
+        tag_5 = "N/A"
+        
     html_body = '''
         <!DOCTYPE html>
         <html lang="es">
@@ -54,6 +102,9 @@ def sabanaList(sabanaArray, avgLines, tagsArray):
                         <th style= "text-align: center; padding: 8px; color: white; font-size: 18px;">Modelo</th>
                         <th style= "text-align: center; padding: 8px; color: white; font-size: 18px;">Inspector</th>
                         <th style= "text-align: center; padding: 8px; color: white; font-size: 18px;">Líneas de sábana</th>
+                        <th style= "text-align: center; padding: 8px; color: white; font-size: 18px;">Nº operarios</th>
+                        <th style= "text-align: center; padding: 8px; color: white; font-size: 18px;">Nº Tags</th>
+
                     </tr>
         '''
     html_sabana = ''' '''
@@ -61,30 +112,32 @@ def sabanaList(sabanaArray, avgLines, tagsArray):
     html_body_end = f'''
                 </table>
                 <h3 style = "color: white">Los equipos tienen una media de {avgLines:.1f} líneas.</h3>
+                <h3 style = "color: white">La media es de {avgWorkers:.1f} operarios por equipo.</h3>
+
                  <table style= "width: 50%; background-color: #1a4c7f; font-size: 14px; border-collapse: collapse; text-align: center; margin-left: auto; margin-right: auto;">
                     <tr>
                         <th style= "text-align: center; padding: 8px; color: white; font-size: 22px;">TAG's</th>
-                        <th style= "text-align: center; padding: 8px; color: white; font-size: 22px;">Veces</th>
+                        <th style= "text-align: center; padding: 8px; color: white; font-size: 22px;">Porcentaje</th>
                     </tr>
                     <tr style = "background-color: #33689D;">
-                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[0][0]}</td>
-                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[0][1]}</td>
+                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{tag_1}</td>
+                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{percentTags1:.1f} %</td>
                     </tr>
                     <tr style = "background-color: #33689D;">
-                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[1][0]}</td>
-                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[1][1]}</td>
+                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{tag_2}</td>
+                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{percentTags2:.1f} %</td>
                     </tr>
                     <tr style = "background-color: #33689D;">
-                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[2][0]}</td>
-                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[2][1]}</td>
+                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{tag_3}</td>
+                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{percentTags3:.1f} %</td>
                     </tr>
                     <tr style = "background-color: #33689D;">
-                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[3][0]}</td>
-                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[3][1]}</td>
+                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{tag_4}</td>
+                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{percentTags4:.1f} %</td>
                     </tr>
                     <tr style = "background-color: #33689D;">
-                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[4][0]}</td>
-                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{listRank[4][1]}</td>
+                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{tag_5}</td>
+                        <td style = "text-align: center; padding: 8px; color: white; font-weight: bold; font-size: 18px">{percentTags5:.1f} %</td>
                     </tr>
                 </table>
                 <hr style = padding: 8px; color: white;>
@@ -99,35 +152,37 @@ def sabanaList(sabanaArray, avgLines, tagsArray):
             html_sabana = html_sabana + '<tr style = "background-color: #33689D;"><td style = "text-align: center; padding: 8px; color: white;"><a href=' + sabana.url + ' style = "color: white; background-color: transparent; text-decoration: none; font-weight: bold;" target= "_blank">' + sabana.order + '</td><td style= "text-align: center; padding: 8px; color: white;">' + str(sabana.mo) + '</td><td style= "text-align: center; padding: 8px; color: white;">' + sabana.model + \
                 '</td><td style= "text-align: center; padding: 8px; color: white;">' + sabana.inspector + \
                 '</td><td style= "text-align: center; padding: 8px; color: white;">' + \
-                str(sabana.lines) + '</td></tr>'
+                str(sabana.lines) + '</td><td style= "text-align: center; padding: 8px; color: white;">' + \
+                str(sabana.numberWorkers) + '</td><td style= "text-align: center; padding: 8px; color: white;">' + \
+                str(sabana.numberTags) + '</td></tr>'
         else:
             html_sabana = html_sabana + '<tr style = "background-color: #1a4c7f;"><td style = "text-align: center; padding: 8px; color: white;"><a href=' + sabana.url + ' style = "color: white; background-color: transparent; text-decoration: none; font-weight: bold;" target= "_blank">' + sabana.order + '</td><td style= "text-align: center; padding: 8px; color: white;">' + str(sabana.mo) + \
                 '</td><td style= "text-align: center; padding: 8px; color: white;">' + sabana.model + \
                 '</td><td style= "text-align: center; padding: 8px; color: white;">' + sabana.inspector + \
                 '</td><td style= "text-align: center; padding: 8px; color: white;">' + \
-                str(sabana.lines) + '</td></tr>'
+                str(sabana.lines) + '</td><td style= "text-align: center; padding: 8px; color: white;">' + \
+                str(sabana.numberWorkers) + '</td><td style= "text-align: center; padding: 8px; color: white;">' + \
+                str(sabana.numberTags) + '</td></tr>'
         a = a + 1
     htmlEmail = html_body + htmlBodyTitle + \
         htmlBodyTable + html_sabana + html_body_end
     return htmlEmail
 
 
-def sendEmail(mail_subject, mail_body, avgLines, tagsArray):
+def sendEmail(mail_subject, mail_body, avgLines, tagsArray, avgWorkers):
     
     dateGraph = datetime.now()
     dateGraphWeekNumber = dateGraph.strftime('%U')
     dateGraphWeek = int(dateGraphWeekNumber) - 1
     
-    path_attach = f'avg_week_{dateGraphWeek}_graph.png'
-    name_attach = f'avg_week_{dateGraphWeek}_graph.png'
-
-    listEmails = [email_gmail_dm, email_sys_dm, email_sys_al]
+    path_attach = f'/home/dani/projects/rework_study/avg_week_{dateGraphWeek}_graph.png'
+    name_attach = f'/home/dani/projects/rework_study/avg_week_{dateGraphWeek}_graph.png'
 
     mimemsg = MIMEMultipart()
-    mimemsg['From'] = mail_from
-    mimemsg['To'] = ', '.join(listEmails)
+    mimemsg['From'] = username
+    mimemsg['To'] = 'morala84@gmail.com, alberto.solar@systemair.es, antonio.mencias@systemair.es, said.hajjaje@systemair.es, fernando.vaquero@systemair.es'
     mimemsg['Subject'] = mail_subject
-    mimemsg.attach(MIMEText(sabanaList(mail_body, avgLines, tagsArray), 'html'))
+    mimemsg.attach(MIMEText(sabanaList(mail_body, avgLines, tagsArray, avgWorkers), 'html'))
     archivo_adjunto = open(path_attach, 'rb')
     adjunto_MIME = MIMEBase('application', 'octet-stream')
     adjunto_MIME.set_payload((archivo_adjunto).read())
@@ -142,5 +197,6 @@ def sendEmail(mail_subject, mail_body, avgLines, tagsArray):
         connection.send_message(mimemsg)
         connection.quit()
         print('>> EMAIL SENDED <<')
-    except:
+    except Exception as e:
         print('Algo salió mal... El email no pudo ser enviado.')
+        print(f'EXCEPTION: {e}')
