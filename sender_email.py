@@ -16,11 +16,13 @@ password = os.getenv('PWD_GMAIL')
 recipients = os.getenv('RECIPIENT')
 email_sys_dm = os.getenv('EMAIL_SYS_DM')
 
+
 def tagsStadistics(tagsArray):
     tagsList = Counter(tagsArray)
     listRank = tagsList.most_common(5)
     return listRank
-    
+
+
 def sabanaList(sabanaArray, avgLines, tagsArray, avgWorkers):
     sabanaLenght = len(sabanaArray)
     listRank = tagsStadistics(tagsArray)
@@ -28,52 +30,52 @@ def sabanaList(sabanaArray, avgLines, tagsArray, avgWorkers):
         percentTags1 = (listRank[0][1] / sabanaLenght) * 100
     except:
         percentTags1 = 0
-        
+
     try:
         percentTags2 = (listRank[1][1] / sabanaLenght) * 100
     except:
         percentTags2 = 0
-        
+
     try:
         percentTags3 = (listRank[2][1] / sabanaLenght) * 100
     except:
         percentTags3 = 0
-        
+
     try:
         percentTags4 = (listRank[3][1] / sabanaLenght) * 100
     except:
         percentTags4 = 0
-        
+
     try:
         percentTags5 = (listRank[4][1] / sabanaLenght) * 100
-    except: 
+    except:
         percentTags5 = 0
-        
+
     try:
         tag_1 = listRank[0][0]
     except:
         tag_1 = "N/A"
-    
+
     try:
         tag_2 = listRank[1][0]
     except:
         tag_2 = "N/A"
-        
+
     try:
         tag_3 = listRank[2][0]
     except:
         tag_3 = "N/A"
-        
+
     try:
         tag_4 = listRank[3][0]
     except:
         tag_4 = "N/A"
-        
+
     try:
         tag_5 = listRank[4][0]
     except:
         tag_5 = "N/A"
-        
+
     html_body = '''
         <!DOCTYPE html>
         <html lang="es">
@@ -170,11 +172,11 @@ def sabanaList(sabanaArray, avgLines, tagsArray, avgWorkers):
 
 
 def sendEmail(mail_subject, mail_body, avgLines, tagsArray, avgWorkers):
-    
+
     dateGraph = datetime.now()
-    dateGraphWeekNumber = dateGraph.strftime('%U')
-    dateGraphWeek = int(dateGraphWeekNumber) - 1
-    
+    dateGraphWeekNumber = (dateGraph.strftime('%W')) + 1
+    dateGraphWeek = int(dateGraphWeekNumber)
+
     path_attach = f'/home/dani/projects/rework_study/avg_week_{dateGraphWeek}_graph.png'
     name_attach = f'/home/dani/projects/rework_study/avg_week_{dateGraphWeek}_graph.png'
 
@@ -182,7 +184,8 @@ def sendEmail(mail_subject, mail_body, avgLines, tagsArray, avgWorkers):
     mimemsg['From'] = username
     mimemsg['To'] = 'morala84@gmail.com, alberto.solar@systemair.es, antonio.mencias@systemair.es, said.hajjaje@systemair.es, fernando.vaquero@systemair.es'
     mimemsg['Subject'] = mail_subject
-    mimemsg.attach(MIMEText(sabanaList(mail_body, avgLines, tagsArray, avgWorkers), 'html'))
+    mimemsg.attach(
+        MIMEText(sabanaList(mail_body, avgLines, tagsArray, avgWorkers), 'html'))
     archivo_adjunto = open(path_attach, 'rb')
     adjunto_MIME = MIMEBase('application', 'octet-stream')
     adjunto_MIME.set_payload((archivo_adjunto).read())
