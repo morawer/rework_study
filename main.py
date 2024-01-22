@@ -15,7 +15,7 @@ from sabana_class import Sabana
 def getDates():
     # The value 8 gives the last week.
     date1LastWeek = (datetime.now() - timedelta(days=8))
-    weekNum = (date1LastWeek.strftime('%W')) + 1
+    weekNum = int(date1LastWeek.strftime('%W')) + 1
     subjectEmail = f'SEMANA {weekNum}: Informe de equipos revisados'
     date1Formatted = str(date1LastWeek.date())
     date2Formatted = str(datetime.now().date())

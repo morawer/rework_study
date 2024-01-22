@@ -174,7 +174,7 @@ def sabanaList(sabanaArray, avgLines, tagsArray, avgWorkers):
 def sendEmail(mail_subject, mail_body, avgLines, tagsArray, avgWorkers):
 
     dateGraph = datetime.now()
-    dateGraphWeekNumber = (dateGraph.strftime('%W')) + 1
+    dateGraphWeekNumber = int(dateGraph.strftime('%W')) + 1
     dateGraphWeek = int(dateGraphWeekNumber)
 
     path_attach = f'/home/dani/projects/rework_study/avg_week_{dateGraphWeek}_graph.png'
